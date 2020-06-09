@@ -25,7 +25,7 @@
   <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 01 - 安装环境&amp;&amp;实现一个文字扫描仪程序</span><br><span class="line">date: 2020-06-09 16:00:12</span><br><span class="line">tags: 计算机视觉</span><br><span class="line">categories: </span><br><span class="line"><span class="bullet">- </span>学习 </span><br><span class="line"><span class="bullet">- </span>计算机视觉</span><br><span class="line"><span class="bullet">- </span>入门教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>常用hexo命令：</p>
-  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#生成html文件</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="comment">#部署到github</span></span><br><span class="line">hexo d</span><br><span class="line"><span class="comment">#同时进行前面两个操作</span></span><br><span class="line">hexo g -d</span><br><span class="line"><span class="comment">#本地运行</span></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#清除缓存，有时候本地和远程不同步，用一下这个，真的有奇效！</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="comment">#生成html文件</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="comment">#部署到github</span></span><br><span class="line">hexo d</span><br><span class="line"><span class="comment">#同时进行前面两个操作</span></span><br><span class="line">hexo g -d</span><br><span class="line"><span class="comment">#本地运行</span></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 
 
 
