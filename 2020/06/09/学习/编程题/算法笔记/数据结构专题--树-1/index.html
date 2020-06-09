@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="树-1一、树与二叉树1. 树的定义和性质   2. 二叉树的递归定义 )  3. 二叉树的存储和基本操作 二叉树的存储结构    12345struct node&amp;#123;    typename data;  &#x2F;&#x2F;数据域    node* lchild;   &#x2F;&#x2F;指向左子树根节点的指针    node* rchild;   &#x2F;&#x2F;指向右子树根节点的指针&amp;#125;;   由于在二叉树建树前根节点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树-1">
+<meta property="og:url" content="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E6%A0%91-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="树-1一、树与二叉树1. 树的定义和性质   2. 二叉树的递归定义 )  3. 二叉树的存储和基本操作 二叉树的存储结构    12345struct node&amp;#123;    typename data;  &#x2F;&#x2F;数据域    node* lchild;   &#x2F;&#x2F;指向左子树根节点的指针    node* rchild;   &#x2F;&#x2F;指向右子树根节点的指针&amp;#125;;   由于在二叉树建树前根节点">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307105024070.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307105106847.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307105314904.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307110319958.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307110406775.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307110454250.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307110629517.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307111019446.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307111752207.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307111913551.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307112530340.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307115751291.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307115851662.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307142717840.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307143823787.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307144248272.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307144720592.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307145408273.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307145848878.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150012825.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150349007.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150650993.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150816989.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150906615.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307151113125.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307151147820.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307151226836.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307151249820.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307152220208.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307152235199.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307152335752.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155510996.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155555680.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155629482.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155915838.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155927325.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308093652561.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308093930826.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094328966.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094350792.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094524916.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094558729.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094621253.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308095112457.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308095500406.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308101402859.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308101418083.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308101535973.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308101742559.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308102741865.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308104359748.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308104556834.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308104656114.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308171056282.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308171746056.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172301353.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172328619.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172752383.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172810673.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172824818.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308174407249.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308174520924.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308175557725.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308171305978.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308171316885.png">
+<meta property="article:published_time" content="2020-06-09T08:00:12.000Z">
+<meta property="article:modified_time" content="2020-06-09T13:40:42.919Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307105024070.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E6%A0%91-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>树-1 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E6%A0%91-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          树-1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-09 16:00:12 / Modified: 21:40:42" itemprop="dateCreated datePublished" datetime="2020-06-09T16:00:12+08:00">2020-06-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">算法笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="树-1"><a href="#树-1" class="headerlink" title="树-1"></a>树-1</h1><h2 id="一、树与二叉树"><a href="#一、树与二叉树" class="headerlink" title="一、树与二叉树"></a>一、树与二叉树</h2><h3 id="1-树的定义和性质"><a href="#1-树的定义和性质" class="headerlink" title="1. 树的定义和性质"></a>1. 树的定义和性质</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307105024070.png" alt="image-20200307105024070"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307105106847.png" alt="image-20200307105106847"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307105314904.png" alt="image-20200307105314904"></p>
+<h3 id="2-二叉树的递归定义"><a href="#2-二叉树的递归定义" class="headerlink" title="2. 二叉树的递归定义"></a>2. 二叉树的递归定义</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307110319958.png" alt="image-20200307110319958"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307110406775.png" alt="image-20200307110406775">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307110454250.png" alt="image-20200307110454250"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307110629517.png" alt="image-20200307110629517"></p>
+<h3 id="3-二叉树的存储和基本操作"><a href="#3-二叉树的存储和基本操作" class="headerlink" title="3. 二叉树的存储和基本操作"></a>3. 二叉树的存储和基本操作</h3><ol>
+<li><p>二叉树的存储结构</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307111019446.png" alt="image-20200307111019446"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">    <span class="keyword">typename</span> data;  <span class="comment">//数据域</span></span><br><span class="line">    node* lchild;   <span class="comment">//指向左子树根节点的指针</span></span><br><span class="line">    node* rchild;   <span class="comment">//指向右子树根节点的指针</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> 由于在二叉树建树前根节点不存在，因此期地址一般设为NULL</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node* root = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<p> 而如果需要新建节点(例如往二叉树中插入节点的时候，就可以使用下面的函数)：</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">node* <span class="title">newNode</span><span class="params">(<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">    node* Node = <span class="keyword">new</span> node;</span><br><span class="line">    Node-&gt;data = v; <span class="comment">//结点权值为v</span></span><br><span class="line">    Node-&gt;lchild = Node-&gt;rchild = <span class="literal">NULL</span>;  <span class="comment">//初始状态下没有左右孩子</span></span><br><span class="line">    <span class="keyword">return</span> Node;  <span class="comment">//返回新建结点的地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307111752207.png" alt="image-20200307111752207"></p>
+<ol start="2">
+<li><p>二叉树的查找、修改</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307111913551.png" alt="image-20200307111913551"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">search</span><span class="params">(node* root, <span class="keyword">int</span> x, <span class="keyword">int</span> newdata)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;  <span class="comment">//空树，死胡同（递归边界）</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;data == x)&#123; <span class="comment">//找到数据域为x的节点，把它修改成newdata</span></span><br><span class="line">        root-&gt;data = newdata;</span><br><span class="line">    &#125;</span><br><span class="line">    search(root-&gt;lchild, x, newdata);</span><br><span class="line">    search(root-&gt;rchild, x, newdata);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>二叉树的插入</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307112530340.png" alt="image-20200307112530340"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//insert函数将二叉树中插入一个数据域为x的新结点</span></span><br><span class="line"><span class="comment">//注意根节点指针root要使用引用，否则插入不会成功</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(node* &amp;root, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) &#123; <span class="comment">// 空树，说明查找失败，也即插入位置（递归边界）</span></span><br><span class="line">        root = <span class="keyword">new</span> node(x);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(由二叉树性质，x应该插在左子树) &#123;</span><br><span class="line">        insert(root-&gt;lchild, x);  <span class="comment">//往左子树搜索（递归式）</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        insert(root-&gt;rchild, x);  <span class="comment">//往右子树搜索（递归式）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307115751291.png" alt="image-20200307115751291"></p>
+</li>
+<li><p>二叉树的创建</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307115851662.png" alt="image-20200307115851662"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//二叉树的建立</span></span><br><span class="line"><span class="function">node* <span class="title">Create</span><span class="params">(<span class="keyword">int</span> data[], <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    node* root = <span class="literal">NULL</span>; <span class="comment">//新建空根结点root</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        insert(root, data[i]);  <span class="comment">//将data[0]-data[n-1]插入二叉树中</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>二叉树存储结构图示</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307142717840.png" alt="image-20200307142717840"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307143823787.png" alt="image-20200307143823787"></p>
+</li>
+<li><p>完全二叉树的存储结构</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307144248272.png" alt="image-20200307144248272"></p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="二、二叉树的遍历"><a href="#二、二叉树的遍历" class="headerlink" title="二、二叉树的遍历"></a>二、二叉树的遍历</h2><blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307144720592.png" alt="image-20200307144720592"></p>
+</blockquote>
+<h3 id="1-先序遍历"><a href="#1-先序遍历" class="headerlink" title="1. 先序遍历"></a>1. 先序遍历</h3><ol>
+<li><p>先序遍历的实现</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307145408273.png" alt="image-20200307145408273"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">preorder</span><span class="params">(node* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;  <span class="comment">//到达空树，递归边界</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问根节点root，例如将其数据域输出</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, root-&gt;data);</span><br><span class="line">    <span class="comment">//访问左子树</span></span><br><span class="line">    preorder(root-&gt;lchild);</span><br><span class="line">    <span class="comment">//访问右子树</span></span><br><span class="line">    preorder(root-&gt;rchild);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307145848878.png" alt="image-20200307145848878"></p>
+</li>
+<li><p>先序遍历的性质</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150012825.png" alt="image-20200307150012825"></p>
+</li>
+</ol>
+<h3 id="2-中序遍历"><a href="#2-中序遍历" class="headerlink" title="2.中序遍历"></a>2.中序遍历</h3><ol>
+<li><p>中序遍历的实现</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150349007.png" alt="image-20200307150349007"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorder</span><span class="params">(node* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>; <span class="comment">//到达空树，递归边界</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问左子树</span></span><br><span class="line">    inorder(root-&gt;lchild);</span><br><span class="line">    <span class="comment">//访问根节点root，例如将其数据域输出</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, root-&gt;data);</span><br><span class="line">    <span class="comment">//访问右子树</span></span><br><span class="line">    inorder(root-&gt;rchild);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150650993.png" alt="image-20200307150650993"></p>
+</li>
+<li><p>中序遍历序列的性质</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150816989.png" alt="image-20200307150816989"></p>
+</li>
+</ol>
+<h3 id="3-后序遍历"><a href="#3-后序遍历" class="headerlink" title="3. 后序遍历"></a>3. 后序遍历</h3><ol>
+<li><p>后序遍历的实现</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307150906615.png" alt="image-20200307150906615"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">postorder</span><span class="params">(node* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    postorder(root-&gt;lchild);	<span class="comment">//左子树</span></span><br><span class="line">    postorder(root-&gt;rchild);	<span class="comment">//右子树</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, root-&gt;data);  <span class="comment">//访问根节点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307151113125.png" alt="image-20200307151113125"></p>
+</li>
+<li><p>后序遍历序列的性质</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307151147820.png" alt="image-20200307151147820"></p>
+</li>
+</ol>
+<h3 id="4-层序遍历"><a href="#4-层序遍历" class="headerlink" title="4.层序遍历"></a>4.层序遍历</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307151226836.png" alt="image-20200307151226836"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307151249820.png" alt="image-20200307151249820"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LayerOrder</span><span class="params">(node* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;node*&gt; q; <span class="comment">//注意队列里是存地址</span></span><br><span class="line">    q.push(root);   <span class="comment">//将根节点地址入队</span></span><br><span class="line">    <span class="keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">        node* now = q.front(); <span class="comment">//取出队首元素</span></span><br><span class="line">        q.pop();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,now-&gt;data);<span class="comment">//访问队首元素</span></span><br><span class="line">        <span class="keyword">if</span>(now-&gt;lchild != <span class="literal">NULL</span>) q.push(now-&gt;lchild);  <span class="comment">//左子树非空</span></span><br><span class="line">        <span class="keyword">if</span>(now-&gt;rchild != <span class="literal">NULL</span>) q.push(now-&gt;rchild);  <span class="comment">//右子树非空</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//另一个版本，可以记录层号</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">levelOrder</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ans;</span><br><span class="line">    <span class="keyword">if</span>(!root) <span class="keyword">return</span> ans;  <span class="comment">// 树为空则直接返回</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; each_level;  <span class="comment">//依次存储每一层从左往右的结点值</span></span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeNode*&gt;q;  <span class="comment">// 队列，先进进出(FIFO)</span></span><br><span class="line">    q.push(root);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">size</span> = q.<span class="built_in">size</span>();  <span class="comment">// 每层的结点数</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ++i) &#123;</span><br><span class="line">            TreeNode* curr = q.front();  <span class="comment">// 将现结点加入each_level</span></span><br><span class="line">            each_level.push_back(curr-&gt;val);</span><br><span class="line">            <span class="comment">// 非空结点不计入答案，所以要判断现结点的左右结点是否为空</span></span><br><span class="line">            <span class="keyword">if</span>(curr-&gt;left) q.push(curr-&gt;left);</span><br><span class="line">            <span class="keyword">if</span>(curr-&gt;right) q.push(curr-&gt;right);</span><br><span class="line">            q.pop();  <span class="comment">//记得弹出之前的头结点</span></span><br><span class="line">        &#125;</span><br><span class="line">        ans.push_back(each_level);  <span class="comment">// 把每层的结点存入ans</span></span><br><span class="line">        each_level.<span class="built_in">clear</span>();  <span class="comment">//  清除每层的结点，以便添加下一层的非空结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307152220208.png" alt="image-20200307152220208"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307152235199.png" alt="image-20200307152235199"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> data;</span><br><span class="line">    <span class="keyword">int</span> layer;</span><br><span class="line">    node* lchild;</span><br><span class="line">    node* rchild;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307152335752.png" alt="image-20200307152335752"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//层序遍历</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LayerOrder</span><span class="params">(node* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;node*&gt; q;  <span class="comment">//注意队列里是存地址</span></span><br><span class="line">    root-&gt;layer = <span class="number">1</span>;  <span class="comment">//根节点的层号为1</span></span><br><span class="line">    q.push(root);   <span class="comment">//将根节点地址入队</span></span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        node* now = q.front();  <span class="comment">//取出队首元素</span></span><br><span class="line">        q.pop();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>, now-&gt;data); <span class="comment">//访问队首元素</span></span><br><span class="line">        <span class="keyword">if</span>(now-&gt;lchild != <span class="literal">NULL</span>) &#123; <span class="comment">//左子树非空</span></span><br><span class="line">            now-&gt;lchild-&gt;layer = now-&gt;layer + <span class="number">1</span>;  <span class="comment">//层数加一</span></span><br><span class="line">       		q.push(now-&gt;lchild); </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(now-&gt;rchild != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            now-&gt;rchild-&gt;layer = now-&gt;layer + <span class="number">1</span>;  <span class="comment">//层数加一</span></span><br><span class="line">            q.push(now-&gt;rchild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>最后解决一个重要问题</code></p>
+<p><strong>给定一棵二叉树的先序遍历序列和中序遍历序列，重建这棵二叉树</strong></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155510996.png" alt="image-20200307155510996"></p>
+<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155555680.png" alt="image-20200307155555680" style="zoom:50%;" />
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155629482.png" alt="image-20200307155629482"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前先序序列区间为[preL, preR]，中序序列区间为[inL, inR]，返回根节点地址</span></span><br><span class="line"><span class="function">node* <span class="title">create</span><span class="params">(<span class="keyword">int</span> preL, <span class="keyword">int</span> preR, <span class="keyword">int</span> inL, <span class="keyword">int</span> inR)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(preL &gt; preR) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;  <span class="comment">//先序序列长度小于等于0时，直接返回</span></span><br><span class="line">    &#125;</span><br><span class="line">    node* root = <span class="keyword">new</span> node; <span class="comment">//新建一个新的节点，用来存放当前二叉树的根节点</span></span><br><span class="line">    root-&gt;data = pre[preL];  <span class="comment">//新结点的数据域为根节点的值</span></span><br><span class="line">    <span class="keyword">int</span> k;</span><br><span class="line">    <span class="keyword">for</span>(k = inL; k &lt;= inR; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(in[k] == pre[preL]) &#123;  <span class="comment">//在中序序列中找到in[k] == pre[L]的结点</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> numLeft = k - inL; <span class="comment">//左子树的结点个数</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//左子树的先序区间为[preL+1, preL+numLeft]，中序区间为[inL, k-1]</span></span><br><span class="line">    <span class="comment">//返回左子树的根节点地址，赋值给root的左指针</span></span><br><span class="line">    root-&gt;lchild = create(preL + <span class="number">1</span>, preL + numLeft, inL, k - <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//右子树的先序区间为[preL + numLeft + 1, preR],中序区间为[k+1, inR]</span></span><br><span class="line">    <span class="comment">//返回右子树的根节点地址，赋值给root的右指针</span></span><br><span class="line">    root-&gt;rchild = create(preL + numLeft + <span class="number">1</span>, preR, k + <span class="number">1</span>, inR);</span><br><span class="line">    <span class="keyword">return</span> root;  <span class="comment">//返回根节点地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155915838.png" alt="image-20200307155915838">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200307155927325.png" alt="image-20200307155927325"></p>
+<h3 id="5-二叉树的静态实现"><a href="#5-二叉树的静态实现" class="headerlink" title="5. 二叉树的静态实现"></a>5. 二叉树的静态实现</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308093652561.png" alt="image-20200308093652561"></p>
+<p>在定义二叉树时，采用的是二叉链表的结构，如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">    <span class="keyword">typename</span> data;   <span class="comment">//数据域</span></span><br><span class="line">    node* lchild;   <span class="comment">//指向左子树根节点的指针</span></span><br><span class="line">    node* rchild;   <span class="comment">//指向右子树根节点的指针</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308093930826.png" alt="image-20200308093930826"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">    <span class="keyword">typename</span> data;  <span class="comment">//数据域</span></span><br><span class="line">    <span class="keyword">int</span> lchild;   <span class="comment">//指向左子树根节点的指针</span></span><br><span class="line">    <span class="keyword">int</span> rchild;   <span class="comment">//指向右子树根节点的指针</span></span><br><span class="line">&#125;Node[maxn];</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094328966.png" alt="image-20200308094328966">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094350792.png" alt="image-20200308094350792">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094524916.png" alt="image-20200308094524916">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094558729.png" alt="image-20200308094558729">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308094621253.png" alt="image-20200308094621253"></p>
+<h2 id="三、树的遍历"><a href="#三、树的遍历" class="headerlink" title="三、树的遍历"></a>三、树的遍历</h2><h3 id="1-树的静态写法"><a href="#1-树的静态写法" class="headerlink" title="1. 树的静态写法"></a>1. 树的静态写法</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308095112457.png" alt="image-20200308095112457"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">    <span class="keyword">typename</span> data;  <span class="comment">//数据域</span></span><br><span class="line">    <span class="keyword">int</span> child[maxn];   <span class="comment">//指针域，存放所有子节点的下标</span></span><br><span class="line">&#125;Node[maxn];   <span class="comment">//结点数组，maxn为节点上限个数</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308095500406.png" alt="image-20200308095500406"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">    <span class="keyword">typename</span> data;  <span class="comment">//数据域</span></span><br><span class="line">    <span class="built_in">vector</span> child;   <span class="comment">//指针域，存放所有子节点的下标</span></span><br><span class="line">&#125;Node[maxn];   <span class="comment">//结点数组，maxn为节点上限个数</span></span><br></pre></td></tr></table></figure>
+
+<p>与二叉树的静态实现类似，当需要新建一个节点时，就按顺序从数组中取出一个下标即可：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">newNode</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">    Node[index].data = v;</span><br><span class="line">    Node[index].child.<span class="built_in">clear</span>(); <span class="comment">//清空子节点</span></span><br><span class="line">    <span class="keyword">return</span> index++;  <span class="comment">//返回节点下标，并令index自增</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308101402859.png" alt="image-20200308101402859"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308101418083.png" alt="image-20200308101418083"></p>
+<h3 id="2-树的先根遍历"><a href="#2-树的先根遍历" class="headerlink" title="2. 树的先根遍历"></a>2. 树的先根遍历</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308101535973.png" alt="image-20200308101535973"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrder</span><span class="params">(<span class="keyword">int</span> root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d "</span>, Node[root].data); <span class="comment">//访问当前节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Node[root].child.<span class="built_in">size</span>(), i++) &#123;</span><br><span class="line">        PreOrder(Node[root].child[i]);   <span class="comment">//递归访问节点root的所有子节点</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308101742559.png" alt="image-20200308101742559"></p>
+<h3 id="3-树的层序遍历"><a href="#3-树的层序遍历" class="headerlink" title="3. 树的层序遍历"></a>3. 树的层序遍历</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308102741865.png" alt="image-20200308102741865"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LayerOrder</span><span class="params">(<span class="keyword">int</span> root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; Q;</span><br><span class="line">    Q.push(root);  <span class="comment">//将根节点入队</span></span><br><span class="line">    <span class="keyword">while</span>(!Q.empty) &#123;</span><br><span class="line">        <span class="keyword">int</span> front = Q.front();  <span class="comment">//取出队首元素</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>, Node[front].data);  <span class="comment">//访问队首元素的数据</span></span><br><span class="line">        Q.pop();  <span class="comment">//对首元素出队</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Node[front].child.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            Q.push(Node[front].child[i]);  <span class="comment">//队首元素的所有子结点入队</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样的，如果需要对节点的层号进行求解，只需要在结构体node的定义中增加变量来记录节点的层号</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> layer;</span><br><span class="line">    <span class="keyword">int</span> data;  <span class="comment">//数据域</span></span><br><span class="line">    <span class="built_in">vector</span> child;   <span class="comment">//指针域，存放所有子节点的下标</span></span><br><span class="line">&#125;Node[maxn];   <span class="comment">//结点数组，maxn为节点上限个数</span></span><br></pre></td></tr></table></figure>
+
+<p>于是树的层序遍历就可以写成下面这样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LayerOrder</span><span class="params">(<span class="keyword">int</span> root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; Q;</span><br><span class="line">    Q.push(root);  <span class="comment">//将根节点入队</span></span><br><span class="line">    Node[root].layer = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(!Q.empty) &#123;</span><br><span class="line">        <span class="keyword">int</span> front = Q.front();  <span class="comment">//取出队首元素</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>, Node[front].data);  <span class="comment">//访问队首元素的数据</span></span><br><span class="line">        Q.pop();  <span class="comment">//对首元素出队</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Node[front].child.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> child = Node[front].child[i];</span><br><span class="line">            Node[child].layer = Node[front].layer+<span class="number">1</span>;</span><br><span class="line">            Q.push(child);  <span class="comment">//队首元素的所有子结点入队</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-从树的遍历看DFS与BFS"><a href="#4-从树的遍历看DFS与BFS" class="headerlink" title="4. 从树的遍历看DFS与BFS"></a>4. 从树的遍历看DFS与BFS</h3><ol>
+<li><p>深度优先搜索（DFS）与先根遍历</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308104359748.png" alt="image-20200308104359748"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308104556834.png" alt="image-20200308104556834"></p>
+<ol start="2">
+<li><p>广度优先搜索（BFS）与层序遍历</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308104656114.png" alt="image-20200308104656114"></p>
+<p>此处一例题：</p>
+<p>[1053 Path of Equal Weight (30分)](/Users/kirito/Documents/Typora–markdown笔记/笔记/复试/机试/PAT刷题/A组/1053 Path of Equal Weight (30分).md)</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="四、二叉查找树"><a href="#四、二叉查找树" class="headerlink" title="四、二叉查找树"></a>四、二叉查找树</h2><h3 id="1-二叉查找树的定义"><a href="#1-二叉查找树的定义" class="headerlink" title="1.二叉查找树的定义"></a>1.二叉查找树的定义</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308171056282.png" alt="image-20200308171056282"></p>
+<h3 id="2-二叉查找树的基本操作"><a href="#2-二叉查找树的基本操作" class="headerlink" title="2. 二叉查找树的基本操作"></a>2. 二叉查找树的基本操作</h3><ol>
+<li><p>查找操作</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308171746056.png" alt="image-20200308171746056"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//search函数查找二叉查找树中数据域的结点</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">search</span><span class="params">(node* root, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) &#123;  <span class="comment">//空树，查找失败</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"seatch failed\n"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(x == root-&gt;data) &#123;  <span class="comment">//查找成功，访问之</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, root-&gt;data);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(x &lt; root-&gt;data) &#123;  <span class="comment">//如果x比根节点的数据域小，说明x在左子树</span></span><br><span class="line">        search(root-&gt;lchild, x);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        search(root-&gt;rchild, x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172301353.png" alt="image-20200308172301353"></p>
+</li>
+<li><p>插入操作</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172328619.png" alt="image-20200308172328619"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//insert函数将在二叉树中插入一个数据域为x的新结点（注意参数root要加引用）</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(node* &amp;root, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) &#123; <span class="comment">//空树，说明查找失败，也即插入位置</span></span><br><span class="line">        root = <span class="keyword">new</span> node(x);  <span class="comment">//新建节点权值为x</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(x == root-&gt;data) &#123; <span class="comment">//查找成功，说明结点已存在，直接返回</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(x &lt; root-&gt;data) &#123;</span><br><span class="line">        insert(root-&gt;lchild, x);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        insert(root-&gt;rchild, x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>二叉查找树的建立</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172752383.png" alt="image-20200308172752383"></p>
+</li>
+<li><p>二叉查找树的删除</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172810673.png" alt="image-20200308172810673"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308172824818.png" alt="image-20200308172824818"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 先要找前驱和后继</span></span><br><span class="line"><span class="comment"> * 这里面给的root分别是所要删节点的左孩子和右孩子</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//找前驱</span></span><br><span class="line"><span class="function">node* <span class="title">findMax</span><span class="params">(node* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(root-&gt;rchild != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        root = root-&gt;rchild;   <span class="comment">//不断往右，直到没有右孩子</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//找后继</span></span><br><span class="line"><span class="function">node* <span class="title">findMin</span><span class="params">(node* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(root-&gt;lchild != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        root = root-&gt;lchild;  <span class="comment">//不断往左，直到没有左孩子</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308174407249.png" alt="image-20200308174407249"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308174520924.png" alt="image-20200308174520924"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除以root为跟姐点的树中权值为x的结点</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(node* &amp;root, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) <span class="keyword">return</span>;  <span class="comment">//不存在权值为x的结点</span></span><br><span class="line">    <span class="keyword">if</span>(root-&gt;data == x) &#123;  <span class="comment">//找到欲删除结点</span></span><br><span class="line">        <span class="keyword">if</span>(root-&gt;lchild == <span class="literal">NULL</span> &amp;&amp; root-&gt;rchild == <span class="literal">NULL</span>) &#123; <span class="comment">//叶子结点直接删除</span></span><br><span class="line">            root = <span class="literal">NULL</span>;  <span class="comment">//把root地址设为NULL，父节点就引用不到它了</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;lchild != <span class="literal">NULL</span>) &#123;  <span class="comment">//左子树不为空时</span></span><br><span class="line">            node* pre = findMax(root-&gt;lchild);  <span class="comment">//找root前驱</span></span><br><span class="line">            root-&gt;data = pre-&gt;data; <span class="comment">//用前驱覆盖root</span></span><br><span class="line">            deleteNode(root-&gt;lchild, pre-&gt;data);  <span class="comment">//往左子树中删除结点pre</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            node* next = findMin(root-&gt;rchild); <span class="comment">//找root后继</span></span><br><span class="line">            root-&gt;data = next-&gt;data; <span class="comment">//用后继覆盖root</span></span><br><span class="line">            deleteNode(root-&gt;rchild, next-&gt;data);  <span class="comment">//在右子树中删除结点next</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;data &gt; x) &#123;</span><br><span class="line">        deleteNode(root-&gt;lchild, x); <span class="comment">//在左子树中删除x</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        deleteNode(root-&gt;rchild, x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308175557725.png" alt="image-20200308175557725"></p>
+</li>
+</ol>
+<h3 id="3-二叉查找树的性质"><a href="#3-二叉查找树的性质" class="headerlink" title="3. 二叉查找树的性质"></a>3. 二叉查找树的性质</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308171305978.png" alt="image-20200308171305978">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200308171316885.png" alt="image-20200308171316885"></p>
+<p>下面是一个例题：</p>
+<p>[1043 Is It a Binary Search Tree (25分)](/Users/kirito/Documents/Typora–markdown笔记/笔记/复试/机试/PAT刷题/A组/1043 Is It a Binary Search Tree (25分).md)</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%A0%91/" rel="tag"># 树</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E6%A0%91-2/" rel="prev" title="树-2">
+      <i class="fa fa-chevron-left"></i> 树-2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E5%9B%BE/" rel="next" title="图">
+      图 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树-1"><span class="nav-number">1.</span> <span class="nav-text">树-1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、树与二叉树"><span class="nav-number">1.1.</span> <span class="nav-text">一、树与二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-树的定义和性质"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 树的定义和性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-二叉树的递归定义"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 二叉树的递归定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-二叉树的存储和基本操作"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 二叉树的存储和基本操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、二叉树的遍历"><span class="nav-number">1.2.</span> <span class="nav-text">二、二叉树的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-先序遍历"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 先序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-中序遍历"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.中序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-后序遍历"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 后序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-层序遍历"><span class="nav-number">1.2.4.</span> <span class="nav-text">4.层序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-二叉树的静态实现"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 二叉树的静态实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、树的遍历"><span class="nav-number">1.3.</span> <span class="nav-text">三、树的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-树的静态写法"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 树的静态写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-树的先根遍历"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 树的先根遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-树的层序遍历"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 树的层序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-从树的遍历看DFS与BFS"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. 从树的遍历看DFS与BFS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、二叉查找树"><span class="nav-number">1.4.</span> <span class="nav-text">四、二叉查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-二叉查找树的定义"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.二叉查找树的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-二叉查找树的基本操作"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 二叉查找树的基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-二叉查找树的性质"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 二叉查找树的性质</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

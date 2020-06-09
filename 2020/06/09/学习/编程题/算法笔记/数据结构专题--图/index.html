@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="图一、图的定义和相关术语 )  二、图的存储图的存储有两种方式： 1. 邻接矩阵 2. 邻接表   三、图的遍历图的遍历方法一般两种：DFS和BFS 1. 采用DFS法遍历图 用DFS遍历图          123456789101112131415DFS(u)&amp;#123;  &#x2F;&#x2F;访问顶点u    vis[u] &#x3D; true;  &#x2F;&#x2F;设置u已被访问    for(从u出发能到达的所有顶点v) &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图">
+<meta property="og:url" content="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E5%9B%BE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="图一、图的定义和相关术语 )  二、图的存储图的存储有两种方式： 1. 邻接矩阵 2. 邻接表   三、图的遍历图的遍历方法一般两种：DFS和BFS 1. 采用DFS法遍历图 用DFS遍历图          123456789101112131415DFS(u)&amp;#123;  &#x2F;&#x2F;访问顶点u    vis[u] &#x3D; true;  &#x2F;&#x2F;设置u已被访问    for(从u出发能到达的所有顶点v) &amp;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163414497.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163423047.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163522779.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163706260.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310164102384.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310164149481.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310165639764.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310165727389.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310165835746.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310174953002.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310180154466.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200312093557799.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200312093615464.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200312093641261.png">
+<meta property="article:published_time" content="2020-06-09T08:00:12.000Z">
+<meta property="article:modified_time" content="2020-06-09T13:40:42.939Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="图">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163414497.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E5%9B%BE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>图 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E5%9B%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-09 16:00:12 / Modified: 21:40:42" itemprop="dateCreated datePublished" datetime="2020-06-09T16:00:12+08:00">2020-06-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">算法笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="图"><a href="#图" class="headerlink" title="图"></a>图</h1><h2 id="一、图的定义和相关术语"><a href="#一、图的定义和相关术语" class="headerlink" title="一、图的定义和相关术语"></a>一、图的定义和相关术语</h2><blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163414497.png" alt="image-20200310163414497">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163423047.png" alt="image-20200310163423047"></p>
+</blockquote>
+<h2 id="二、图的存储"><a href="#二、图的存储" class="headerlink" title="二、图的存储"></a>二、图的存储</h2><p>图的存储有两种方式：</p>
+<h3 id="1-邻接矩阵"><a href="#1-邻接矩阵" class="headerlink" title="1. 邻接矩阵"></a>1. 邻接矩阵</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163522779.png" alt="image-20200310163522779"></p>
+<h3 id="2-邻接表"><a href="#2-邻接表" class="headerlink" title="2. 邻接表"></a>2. 邻接表</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310163706260.png" alt="image-20200310163706260"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310164102384.png" alt="image-20200310164102384"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310164149481.png" alt="image-20200310164149481"></p>
+<h2 id="三、图的遍历"><a href="#三、图的遍历" class="headerlink" title="三、图的遍历"></a>三、图的遍历</h2><p>图的遍历方法一般两种：DFS和BFS</p>
+<h3 id="1-采用DFS法遍历图"><a href="#1-采用DFS法遍历图" class="headerlink" title="1. 采用DFS法遍历图"></a>1. 采用DFS法遍历图</h3><ol>
+<li><p>用DFS遍历图</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310165639764.png" alt="image-20200310165639764"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310165727389.png" alt="image-20200310165727389"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310165835746.png" alt="image-20200310165835746"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310174953002.png" alt="image-20200310174953002"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DFS(u)&#123;  <span class="comment">//访问顶点u</span></span><br><span class="line">    vis[u] = <span class="literal">true</span>;  <span class="comment">//设置u已被访问</span></span><br><span class="line">    <span class="keyword">for</span>(从u出发能到达的所有顶点v) &#123;  <span class="comment">//枚举从u出发可以到达的所有顶点v</span></span><br><span class="line">        <span class="keyword">if</span>(vis[v] == <span class="literal">false</span>)&#123;   <span class="comment">//如果v未被访问</span></span><br><span class="line">            DFS[v];  <span class="comment">//递归访问v</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">DFSTrave(G) &#123; <span class="comment">//遍历图G</span></span><br><span class="line">    <span class="keyword">for</span>(G的所有顶点u) &#123;<span class="comment">//对G的所有顶点u</span></span><br><span class="line">        <span class="keyword">if</span>(vis[u] == <span class="literal">false</span>)&#123; <span class="comment">//如果u未被访问</span></span><br><span class="line">            DFS(u); <span class="comment">//访问u所在的连通块</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200310180154466.png" alt="image-20200310180154466"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXV = <span class="number">1000</span>;  <span class="comment">//最大顶点数</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">10000000000</span>;  <span class="comment">//设INF为一个很大的数</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>邻接矩阵版</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n, G[MAXV][MAXV];  <span class="comment">//n为顶点数，MAXV为最大顶点数</span></span><br><span class="line"><span class="keyword">bool</span> vis[MAXV] = &#123;<span class="literal">false</span>&#125;;  <span class="comment">//如果顶点i已被访问，则vis[i] == true.初值为false</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFS</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> depth)</span> </span>&#123;  <span class="comment">//u为当前访问的顶点标号，depth为深度</span></span><br><span class="line">    vis[u] = <span class="literal">true</span>;  <span class="comment">//设置u已被访问</span></span><br><span class="line">    <span class="comment">//如果需要对u进行一些操作，可以在这里进行</span></span><br><span class="line">    对u的一些操作。。。;</span><br><span class="line">    <span class="comment">//下面对所有从u出发能到达的分支顶点进行枚举</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> v = <span class="number">0</span>; v &lt; n; v++) &#123;  <span class="comment">//对每个顶点v</span></span><br><span class="line">        <span class="keyword">if</span>(vis[v] == <span class="literal">false</span> &amp;&amp; G[u][v] != INF) &#123;  <span class="comment">//如果v未被访问，且u可到达</span></span><br><span class="line">            DFS(v, depth + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFSTrave</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> u = <span class="number">0</span>; u &lt; n; u++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(vis[u] == <span class="literal">false</span>) &#123;</span><br><span class="line">            DFS(u, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>邻接表版</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; Adj[MAXV];  <span class="comment">//图G的邻接表</span></span><br><span class="line"><span class="keyword">int</span> n;  <span class="comment">//n为顶点数，MAXV为最大顶点数</span></span><br><span class="line"><span class="keyword">bool</span> vis[MAXV] = &#123;<span class="literal">false</span>&#125;;  </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFS</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> depth)</span> </span>&#123;</span><br><span class="line">    vis[u] = <span class="literal">true</span>;</span><br><span class="line">    <span class="comment">//如果需要对u进行一些操作，可以在这里进行</span></span><br><span class="line">    对u的一些操作。。。;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Adj[u].<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> v = Adj[u][i];</span><br><span class="line">        <span class="keyword">if</span>(vis[v] == <span class="literal">false</span>) &#123;</span><br><span class="line">            DFS(v, depth + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFSTrave</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> u = <span class="number">0</span>; u &lt; n; u++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(vis[u] == <span class="literal">false</span>) &#123;</span><br><span class="line">            DFS(u, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处一例题：</p>
+<p>[1034 Head of a Gang (30分)](/Users/kirito/Documents/Typora–markdown笔记/笔记/复试/机试/PAT刷题/A组/1034 Head of a Gang (30分).md)</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-采用BFS法遍历图"><a href="#2-采用BFS法遍历图" class="headerlink" title="2. 采用BFS法遍历图"></a>2. 采用BFS法遍历图</h3><ol>
+<li><p>用BFS遍历图</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200312093557799.png" alt="image-20200312093557799"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200312093615464.png" alt="image-20200312093615464"></p>
+</li>
+<li><p>BFS的具体实现</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200312093641261.png" alt="image-20200312093641261"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">BFS(u) &#123;  <span class="comment">//遍历u所在的连通块</span></span><br><span class="line">    <span class="built_in">queue</span> q;  <span class="comment">//定义队列q</span></span><br><span class="line">    将u入队;</span><br><span class="line">    inq[u] = <span class="literal">true</span>;   <span class="comment">//设置u已被加入过队列</span></span><br><span class="line">    <span class="keyword">while</span>(q非空) &#123;  <span class="comment">//只要队列非空</span></span><br><span class="line">        取出q的队首元素u进行访问;</span><br><span class="line">        <span class="keyword">for</span>(从u出发可达的所有顶点v) &#123;  <span class="comment">//枚举从u能直接到达的顶点v</span></span><br><span class="line">            <span class="keyword">if</span>(inq[v] == <span class="literal">false</span>) &#123;  <span class="comment">//如果v未曾加入过队列</span></span><br><span class="line">                将v入队;</span><br><span class="line">                inq[v] = <span class="literal">true</span>;  <span class="comment">//设置v已被加入过队列</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line">BFSTrave(G)&#123;  <span class="comment">//遍历图G</span></span><br><span class="line">    <span class="keyword">for</span>(G的所有顶点u) &#123;</span><br><span class="line">        <span class="keyword">if</span>(inq[u] == <span class="literal">false</span>) &#123;</span><br><span class="line">            BFS(u);  <span class="comment">//遍历u所在的连通块</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 两种实现方式：</p>
+<ul>
+<li><p>邻接矩阵版</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n, G[MAXV][MAXV];  <span class="comment">//n为顶点数， MAXV为最大顶点数</span></span><br><span class="line"><span class="keyword">bool</span> inq[MAXV] = &#123;<span class="literal">false</span>&#125;; <span class="comment">//其实就是vis</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFS</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;  </span><br><span class="line">    q.push(u);</span><br><span class="line">    inq[u] = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> u = q.front();</span><br><span class="line">        q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> v = <span class="number">0</span>; v &lt; n; v++) &#123;</span><br><span class="line">            <span class="comment">//未曾加入队列，且连通</span></span><br><span class="line">            <span class="keyword">if</span>(inq[v] == <span class="literal">false</span> &amp;&amp; G[u][v] != INF) &#123;</span><br><span class="line">                q.push(v);  <span class="comment">//将v入队</span></span><br><span class="line">                inq[v] = <span class="literal">true</span>;  <span class="comment">//标记v为已被加入过队列</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFSTrave</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> u = <span class="number">0</span>; u &lt; n; u++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(inq[u] == <span class="literal">false</span>) &#123;</span><br><span class="line">            BFS(u);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ol>
+<pre><code>* 邻接表
+
+    <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; Adj[MAXV];  </span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">bool</span> inq[MAXV] = &#123;<span class="literal">false</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFS</span><span class="params">(<span class="keyword">int</span> u)</span></span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;  <span class="comment">//定义队列q</span></span><br><span class="line">    q.push(u);</span><br><span class="line">    inq[u] = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> u = q.front();</span><br><span class="line">        q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Adj[u].<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> v = Adj[u][i];</span><br><span class="line">            <span class="keyword">if</span>(inq[v] == <span class="literal">false</span>) &#123;</span><br><span class="line">                q.push(v);</span><br><span class="line">                inq[v] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFSTrave</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> u = <span class="number">0</span>; u &lt; n; u++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(inq[u] == <span class="literal">false</span>)&#123;</span><br><span class="line">            BFS(u);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    ![image-20200312102731338](https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200312102731338.png)
+
+    ![image-20200312102747593](https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200312102747593.png)
+
+    <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFS</span><span class="params">(<span class="keyword">int</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;Node&gt; q;</span><br><span class="line">    Node start;</span><br><span class="line">    start.v = s;</span><br><span class="line">    start.layer = <span class="number">0</span>;</span><br><span class="line">    q.push(start);</span><br><span class="line">    inq[start.v] = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        Node topNode = q.front();<span class="comment">//得到队首</span></span><br><span class="line">        q.pop();</span><br><span class="line">        <span class="keyword">int</span> u = topNode.v;  <span class="comment">//得到队首编号</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Adj[u].<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            Node next = Adj[u][i];</span><br><span class="line">            next.laryer = topNode.layer + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(inq[next.v] == <span class="literal">false</span>) &#123;</span><br><span class="line">                q.push(next);</span><br><span class="line">                inq[next.v] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    见一例题
+
+    [1076 Forwards on Weibo (30分)](/Users/kirito/Documents/Typora--markdown笔记/笔记/复试/机试/PAT刷题/A组/1076 Forwards on Weibo (30分).md)</code></pre>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%BE/" rel="tag"># 图</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E6%A0%91-1/" rel="prev" title="树-1">
+      <i class="fa fa-chevron-left"></i> 树-1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%90%9C%E7%B4%A2%E4%B8%93%E9%A2%98/" rel="next" title="搜索专题">
+      搜索专题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图"><span class="nav-number">1.</span> <span class="nav-text">图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、图的定义和相关术语"><span class="nav-number">1.1.</span> <span class="nav-text">一、图的定义和相关术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、图的存储"><span class="nav-number">1.2.</span> <span class="nav-text">二、图的存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-邻接矩阵"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 邻接矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-邻接表"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 邻接表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、图的遍历"><span class="nav-number">1.3.</span> <span class="nav-text">三、图的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-采用DFS法遍历图"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 采用DFS法遍历图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-采用BFS法遍历图"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 采用BFS法遍历图</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="数据结构专题–线性结构一、栈的应用（逻辑结构）  ) 二、队列的应用（逻辑结构） )) 三、链表处理（物理结构）1. 链表的概念  1234struct node&amp;#123;  	typename data;  	node *next;  &#x2F;&#x2F;指针域&amp;#125;;   2. 使用malloc函数或者new运算符为链表节点分配内存空间  malloc函数    typename* p &#x3D; (type">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构专题--线性结构">
+<meta property="og:url" content="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据结构专题–线性结构一、栈的应用（逻辑结构）  ) 二、队列的应用（逻辑结构） )) 三、链表处理（物理结构）1. 链表的概念  1234struct node&amp;#123;  	typename data;  	node *next;  &#x2F;&#x2F;指针域&amp;#125;;   2. 使用malloc函数或者new运算符为链表节点分配内存空间  malloc函数    typename* p &#x3D; (type">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303151832342.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303151925302.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152002665.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152118653.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152145379.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152213956.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152225046.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152237078.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105034120.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105336563.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105355025.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105657845.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105920753.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110013680.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110110179.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110214838.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110327899.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110413970.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110621574.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110659058.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111134693.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111143861.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111444573.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111456531.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111519036.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111528725.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111620670.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111741941.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200305090217621.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200305090738897.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200305092408391.png">
+<meta property="article:published_time" content="2020-06-09T08:00:12.000Z">
+<meta property="article:modified_time" content="2020-06-09T13:40:42.944Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="线性结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303151832342.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>数据结构专题--线性结构 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据结构专题--线性结构
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-09 16:00:12 / Modified: 21:40:42" itemprop="dateCreated datePublished" datetime="2020-06-09T16:00:12+08:00">2020-06-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">算法笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="数据结构专题–线性结构"><a href="#数据结构专题–线性结构" class="headerlink" title="数据结构专题–线性结构"></a>数据结构专题–线性结构</h1><h2 id="一、栈的应用（逻辑结构）"><a href="#一、栈的应用（逻辑结构）" class="headerlink" title="一、栈的应用（逻辑结构）"></a>一、栈的应用（逻辑结构）</h2><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303151832342.png" alt="image-20200303151832342"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303151925302.png" alt="image-20200303151925302"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152002665.png" alt="image-20200303152002665">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152118653.png" alt="image-20200303152118653"></p>
+<h2 id="二、队列的应用（逻辑结构）"><a href="#二、队列的应用（逻辑结构）" class="headerlink" title="二、队列的应用（逻辑结构）"></a>二、队列的应用（逻辑结构）</h2><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152145379.png" alt="image-20200303152145379"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152213956.png" alt="image-20200303152213956">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152225046.png" alt="image-20200303152225046">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200303152237078.png" alt="image-20200303152237078"></p>
+<h2 id="三、链表处理（物理结构）"><a href="#三、链表处理（物理结构）" class="headerlink" title="三、链表处理（物理结构）"></a>三、链表处理（物理结构）</h2><h3 id="1-链表的概念"><a href="#1-链表的概念" class="headerlink" title="1. 链表的概念"></a>1. 链表的概念</h3><blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105034120.png" alt="image-20200304105034120"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">  	<span class="keyword">typename</span> data;</span><br><span class="line">  	node *next;  <span class="comment">//指针域</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105336563.png" alt="image-20200304105336563"></p>
+<h3 id="2-使用malloc函数或者new运算符为链表节点分配内存空间"><a href="#2-使用malloc函数或者new运算符为链表节点分配内存空间" class="headerlink" title="2. 使用malloc函数或者new运算符为链表节点分配内存空间"></a>2. 使用malloc函数或者new运算符为链表节点分配内存空间</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105355025.png" alt="image-20200304105355025"></p>
+<ol>
+<li><p><code>malloc</code>函数</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105657845.png" alt="image-20200304105657845"></p>
+<p> <code>typename* p = (typename*)malloc(sizeof(typename));</code></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304105920753.png" alt="image-20200304105920753"></p>
+</li>
+<li><p><code>new</code>运算符</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110013680.png" alt="image-20200304110013680"></p>
+</li>
+<li><p>内存泄漏</p>
+<blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110110179.png" alt="image-20200304110110179"></p>
+</blockquote>
+<ol>
+<li><p><code>free</code>函数</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110214838.png" alt="image-20200304110214838"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110327899.png" alt="image-20200304110327899"></p>
+</li>
+<li><p><code>delete</code>运算符</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110413970.png" alt="image-20200304110413970"></p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="3-链表的基本操作"><a href="#3-链表的基本操作" class="headerlink" title="3.链表的基本操作"></a>3.链表的基本操作</h3><ol>
+<li><p>创建链表</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110621574.png" alt="image-20200304110621574"></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304110659058.png" alt="image-20200304110659058"></p>
+</li>
+<li><p>查找元素</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111134693.png" alt="image-20200304111134693">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111143861.png" alt="image-20200304111143861"></p>
+</li>
+<li><p>插入元素</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111444573.png" alt="image-20200304111444573">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111456531.png" alt="image-20200304111456531"></p>
+</li>
+</ol>
+<ol start="4">
+<li><p>删除元素</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111519036.png" alt="image-20200304111519036">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111528725.png" alt="image-20200304111528725"></p>
+</li>
+</ol>
+<h3 id="4-静态链表"><a href="#4-静态链表" class="headerlink" title="4. 静态链表"></a>4. 静态链表</h3><p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111620670.png" alt="image-20200304111620670"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200304111741941.png" alt="image-20200304111741941"></p>
+<p>来看一个静态链表的例题：</p>
+<p>[1032 Sharing](/Users/kirito/Documents/Typora–markdown笔记/笔记/复试/机试/PAT刷题/A组/1032 Sharing (25分).md)</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200305090217621.png" alt="image-20200305090217621"></p>
+<ol>
+<li><p>定义静态链表。</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span>&#123;</span></span><br><span class="line">  	<span class="keyword">int</span> address; <span class="comment">//结点地址</span></span><br><span class="line">  	<span class="keyword">typename</span> data；  <span class="comment">//数据域</span></span><br><span class="line">     <span class="keyword">int</span> next；  <span class="comment">//指针域</span></span><br><span class="line">     XXX；  结点的某个性质，不同题目会有不同设置</span><br><span class="line">&#125;node[<span class="number">100010</span>];</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200305090738897.png" alt="image-20200305090738897"></p>
+</li>
+<li><p>程序开始时，初始化。</p>
+<p> 一般来说，需要对定义中XXX进行初始化，将其定义为正常情况达不到的数字（一般来说需要小于所有能达到的数字，理由第四步说明），例如对节点是否在链表上这个性质来说，我们可以初始化为0（即false），表示结点不在链表上。</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;maxn;  i++)&#123;</span><br><span class="line">	  node[i].XXX = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>题目一般都会给出一条链表的首结点的地址，那么我们就可以一句这个地址来遍历得到整条链表。</p>
+<p> 需要注意的是，这一步同时也是我们对节点性质XXX进行标记、并对有效节点的个数进行计数的时候，例如对节点是否在链表上这个性质来说，就可以吧XXX置为1（即true）</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> p = <span class="built_in">begin</span>(), count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(p != <span class="number">-1</span>)&#123;</span><br><span class="line">  	XXX = <span class="number">1</span>;</span><br><span class="line">     count++;</span><br><span class="line">  	p = node[p]-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>由于使用静态莲表示，是直接从业地址映射（hash）的方式，转就会使得数组下标的不连续，而很多时候题目给出的节点并不都是有效节点。为了能够可控的访问有效节点，一般都需要用对数组进行排序以把有效节点一道数组左端，这样就可以用步骤3得到count来访问它们。</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200305092408391.png" alt="image-20200305092408391"></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span> <span class="params">(Node a, Node b)</span></span>&#123;</span><br><span class="line">  	<span class="keyword">if</span>(a.XXX == <span class="number">-1</span> || b.XXX == <span class="number">-1</span>)&#123;</span><br><span class="line">      	<span class="comment">//至少一个节点是无效节点，就把它放到数组后面</span></span><br><span class="line">      	<span class="keyword">return</span> a.XXX &gt; b.XXX;   <span class="comment">//学到！！</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	      <span class="comment">//第二级排序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在经历步骤4后，链表的有效结点就都在数组走断了，且已经按节点的性质进行了排序，接下来就要看题目在排序之后具体要求做什么了。</p>
+</li>
+</ol>
+<p>再看一道例题：</p>
+<p>[1052 Linked List Sorting (25分)](/Users/kirito/Documents/Typora–markdown笔记/笔记/复试/机试/PAT刷题/A组/1052 Linked List Sorting (25分).md)</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84/" rel="tag"># 线性结构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84&%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/" rel="prev" title="最短路径和拓扑排序">
+      <i class="fa fa-chevron-left"></i> 最短路径和拓扑排序
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/09/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98--%E6%A0%91-2/" rel="next" title="树-2">
+      树-2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构专题–线性结构"><span class="nav-number">1.</span> <span class="nav-text">数据结构专题–线性结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、栈的应用（逻辑结构）"><span class="nav-number">1.1.</span> <span class="nav-text">一、栈的应用（逻辑结构）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、队列的应用（逻辑结构）"><span class="nav-number">1.2.</span> <span class="nav-text">二、队列的应用（逻辑结构）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、链表处理（物理结构）"><span class="nav-number">1.3.</span> <span class="nav-text">三、链表处理（物理结构）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-链表的概念"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 链表的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用malloc函数或者new运算符为链表节点分配内存空间"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 使用malloc函数或者new运算符为链表节点分配内存空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-链表的基本操作"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.链表的基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-静态链表"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. 静态链表</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
