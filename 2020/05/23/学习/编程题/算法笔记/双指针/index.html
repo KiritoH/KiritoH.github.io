@@ -22,14 +22,15 @@
 
   <meta name="description" content="双指针快慢指针判断链表是否有环一个快（2步）一个慢（1步），如果两个指针最终相见，则有环 判断链表的环起点位置当快慢指针相遇时，让其中任⼀个指针指向头节点，然后让它俩 以相同速度前进，再次相遇时所在的节点位置就是环开始的位置。 寻找链表中点快慢指针，当快指针到达终点时，慢指针就到了中间点。 寻找倒数第k个元素快慢指针，快指针先走k步，然后两者同速走，快指针到达终点时，慢指针也指向了倒数第k个元素">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学习&#x2F;编程题&#x2F;算法笔记&#x2F;双指针">
+<meta property="og:title" content="双指针">
 <meta property="og:url" content="http://kiritoh.github.io/2020/05/23/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E5%8F%8C%E6%8C%87%E9%92%88/index.html">
 <meta property="og:site_name" content="KiritoH&#39;s Blog">
 <meta property="og:description" content="双指针快慢指针判断链表是否有环一个快（2步）一个慢（1步），如果两个指针最终相见，则有环 判断链表的环起点位置当快慢指针相遇时，让其中任⼀个指针指向头节点，然后让它俩 以相同速度前进，再次相遇时所在的节点位置就是环开始的位置。 寻找链表中点快慢指针，当快指针到达终点时，慢指针就到了中间点。 寻找倒数第k个元素快慢指针，快指针先走k步，然后两者同速走，快指针到达终点时，慢指针也指向了倒数第k个元素">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-23T11:44:49.260Z">
-<meta property="article:modified_time" content="2020-05-23T11:59:41.727Z">
+<meta property="article:modified_time" content="2020-06-10T00:47:14.208Z">
 <meta property="article:author" content="KiritoH">
+<meta property="article:tag" content="双指针">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://kiritoh.github.io/2020/05/23/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E5%8F%8C%E6%8C%87%E9%92%88/">
@@ -45,7 +46,7 @@
   };
 </script>
 
-  <title>学习/编程题/算法笔记/双指针 | KiritoH's Blog</title>
+  <title>双指针 | KiritoH's Blog</title>
   
 
 
@@ -206,7 +207,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          学习/编程题/算法笔记/双指针
+          双指针
         </h1>
 
         <div class="post-meta">
@@ -215,9 +216,32 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-23 19:44:49 / Modified: 19:59:41" itemprop="dateCreated datePublished" datetime="2020-05-23T19:44:49+08:00">2020-05-23</time>
+              <time title="Created: 2020-05-23 19:44:49" itemprop="dateCreated datePublished" datetime="2020-05-23T19:44:49+08:00">2020-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-10 08:47:14" itemprop="dateModified" datetime="2020-06-10T08:47:14+08:00">2020-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">算法笔记</span></a>
+                </span>
             </span>
 
           
@@ -254,6 +278,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="tag"># 双指针</a>
+          </div>
 
         
 
@@ -261,11 +288,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/19/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/2-%E5%9B%9E%E6%BA%AF-%E9%A2%98%E9%9B%86/" rel="prev" title="学习/编程题/算法笔记/2-回溯-题集">
-      <i class="fa fa-chevron-left"></i> 学习/编程题/算法笔记/2-回溯-题集
+    <a href="/2020/04/25/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/200.%20%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" rel="prev" title="200. 岛屿数量">
+      <i class="fa fa-chevron-left"></i> 200. 岛屿数量
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/06/07/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/test/" rel="next" title="01 - 安装环境&&实现一个文字扫描仪程序">
+    <a href="/2020/06/07/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/01/" rel="next" title="01 - 安装环境&&实现一个文字扫描仪程序">
       01 - 安装环境&&实现一个文字扫描仪程序 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -342,7 +369,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -355,7 +382,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
