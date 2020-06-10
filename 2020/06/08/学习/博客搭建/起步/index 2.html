@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"kiritoh.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
   </script>
 
-  <meta name="description" content="2020.6.7-2020.6.142020.6.7-周日 安装opencv环境  边理解边写一个使用opencv实现扫描仪功能的程序—实现了透视转移部分   具体可见：01 - 安装环境&amp;&amp;实现一个文字扫描仪程序   2020.6.8-周一 边理解边写一个使用opencv实现扫描仪功能的程序—实现了扫描边界以及转换灰度部分   具体可见：01 - 安装环境&amp;&amp;实现">
+  <meta name="description" content="起步Hexo hexo 可以理解为是基于node.js制作的一个博客工具，不是我们理解的一个开源的博客系统。其中的差别，有点意思。hexo 正常来说，不需要部署到我们的服务器上，我们的服务器上保存的，其实是基于在hexo通过markdown编写的文章，然后hexo帮我们生成静态的html页面，然后，将生成的html上传到我们的服务器。简而言之：hexo是个静态页面生成、上传的工具。  安装步骤：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2020.6.7-2020.6.14">
-<meta property="og:url" content="http://kiritoh.github.io/2020/06/07/%E7%94%9F%E6%B4%BB/%E5%91%A8%E8%AE%B0/2020.6.7-2020.6.14/index.html">
+<meta property="og:title" content="Hexo+Next搭建起步">
+<meta property="og:url" content="http://kiritoh.github.io/2020/06/08/%E5%AD%A6%E4%B9%A0/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/%E8%B5%B7%E6%AD%A5/index.html">
 <meta property="og:site_name" content="KiritoH&#39;s Blog">
-<meta property="og:description" content="2020.6.7-2020.6.142020.6.7-周日 安装opencv环境  边理解边写一个使用opencv实现扫描仪功能的程序—实现了透视转移部分   具体可见：01 - 安装环境&amp;&amp;实现一个文字扫描仪程序   2020.6.8-周一 边理解边写一个使用opencv实现扫描仪功能的程序—实现了扫描边界以及转换灰度部分   具体可见：01 - 安装环境&amp;&amp;实现">
+<meta property="og:description" content="起步Hexo hexo 可以理解为是基于node.js制作的一个博客工具，不是我们理解的一个开源的博客系统。其中的差别，有点意思。hexo 正常来说，不需要部署到我们的服务器上，我们的服务器上保存的，其实是基于在hexo通过markdown编写的文章，然后hexo帮我们生成静态的html页面，然后，将生成的html上传到我们的服务器。简而言之：hexo是个静态页面生成、上传的工具。  安装步骤：">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-06-07T06:05:52.520Z">
-<meta property="article:modified_time" content="2020-06-10T00:56:37.123Z">
+<meta property="article:published_time" content="2020-06-08T11:16:10.762Z">
+<meta property="article:modified_time" content="2020-06-10T00:47:17.202Z">
 <meta property="article:author" content="KiritoH">
-<meta property="article:tag" content="周记">
+<meta property="article:tag" content="博客搭建">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://kiritoh.github.io/2020/06/07/%E7%94%9F%E6%B4%BB/%E5%91%A8%E8%AE%B0/2020.6.7-2020.6.14/">
+<link rel="canonical" href="http://kiritoh.github.io/2020/06/08/%E5%AD%A6%E4%B9%A0/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/%E8%B5%B7%E6%AD%A5/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>2020.6.7-2020.6.14 | KiritoH's Blog</title>
+  <title>Hexo+Next搭建起步 | KiritoH's Blog</title>
   
 
 
@@ -194,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/06/07/%E7%94%9F%E6%B4%BB/%E5%91%A8%E8%AE%B0/2020.6.7-2020.6.14/">
+    <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/06/08/%E5%AD%A6%E4%B9%A0/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/%E8%B5%B7%E6%AD%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
@@ -207,7 +207,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          2020.6.7-2020.6.14
+          Hexo+Next搭建起步
         </h1>
 
         <div class="post-meta">
@@ -217,14 +217,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-06-07 14:05:52" itemprop="dateCreated datePublished" datetime="2020-06-07T14:05:52+08:00">2020-06-07</time>
+              <time title="Created: 2020-06-08 19:16:10" itemprop="dateCreated datePublished" datetime="2020-06-08T19:16:10+08:00">2020-06-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-10 08:56:37" itemprop="dateModified" datetime="2020-06-10T08:56:37+08:00">2020-06-10</time>
+                <time title="Modified: 2020-06-10 08:47:17" itemprop="dateModified" datetime="2020-06-10T08:47:17+08:00">2020-06-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -232,11 +232,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index"><span itemprop="name">生活</span></a>
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%94%9F%E6%B4%BB/%E5%91%A8%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">周记</span></a>
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" itemprop="url" rel="index"><span itemprop="name">博客搭建</span></a>
                 </span>
             </span>
 
@@ -258,26 +258,44 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="2020-6-7-2020-6-14"><a href="#2020-6-7-2020-6-14" class="headerlink" title="2020.6.7-2020.6.14"></a>2020.6.7-2020.6.14</h1><h4 id="2020-6-7-周日"><a href="#2020-6-7-周日" class="headerlink" title="2020.6.7-周日"></a>2020.6.7-周日</h4><ul>
-<li><p>安装opencv环境</p>
+        <h1 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h1><h4 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h4><blockquote>
+<p>hexo 可以理解为是基于node.js制作的一个博客工具，不是我们理解的一个开源的博客系统。其中的差别，有点意思。<br>hexo 正常来说，不需要部署到我们的服务器上，我们的服务器上保存的，其实是基于在hexo通过markdown编写的文章，然后hexo帮我们生成静态的html页面，然后，将生成的html上传到我们的服务器。简而言之：hexo是个静态页面生成、上传的工具。</p>
+</blockquote>
+<p>安装步骤：</p>
+<blockquote>
+<p>主要参考的是这篇文章：<a href="https://www.cnblogs.com/microxiami/p/12641137.html" target="_blank" rel="noopener">hexo使用教程</a></p>
+</blockquote>
+<p>具体的安装步骤参考那篇文章即可，再写一遍只是做重复工作，毕竟只是工具。</p>
+<p>重点讲一下遇到的一些坑：</p>
+<ul>
+<li><p>如何显示分类和便签？</p>
+<p>  只需要在根目录执行：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> page categories</span><br></pre></td></tr></table></figure>
+
+<p>  然后在<code>/source/categories/index.md</code>中进行修改：</p>
+<p>  加上<code>type: categories</code>即可（记得有空格！），tags同理。</p>
 </li>
-<li><p>边理解边写一个使用opencv实现扫描仪功能的程序—实现了透视转移部分</p>
-<p>  具体可见：<a href="https://kiritoh.github.io/2020/06/07/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/01/">01 - 安装环境&amp;&amp;实现一个文字扫描仪程序</a></p>
+<li><p>如何多级分类：</p>
+<p>  参考一下这个格式:（时间不用放哦！！他会根据文件格式自动生成时间）</p>
+  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 01 - 安装环境&amp;&amp;实现一个文字扫描仪程序</span><br><span class="line">tags: 计算机视觉</span><br><span class="line">categories: </span><br><span class="line"><span class="bullet">- </span>学习 </span><br><span class="line"><span class="bullet">- </span>计算机视觉</span><br><span class="line"><span class="bullet">- </span>入门教程</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>常用hexo命令：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#清除缓存，有时候本地和远程不同步，用一下这个，真的有奇效！</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="comment">#生成html文件</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="comment">#部署到github</span></span><br><span class="line">hexo d</span><br><span class="line"><span class="comment">#同时进行前面两个操作</span></span><br><span class="line">hexo g -d</span><br><span class="line"><span class="comment">#本地运行</span></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 </li>
 </ul>
-<h4 id="2020-6-8-周一"><a href="#2020-6-8-周一" class="headerlink" title="2020.6.8-周一"></a>2020.6.8-周一</h4><ul>
-<li><p>边理解边写一个使用opencv实现扫描仪功能的程序—实现了扫描边界以及转换灰度部分</p>
-<p>  具体可见：<a href="https://kiritoh.github.io/2020/06/07/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/01/">01 - 安装环境&amp;&amp;实现一个文字扫描仪程序</a></p>
-</li>
-<li><p>搭建个人博客，还没彻底弄完（打算把今后学的一些笔记放上去）</p>
-</li>
-<li><p>练科三</p>
-</li>
-</ul>
-<h4 id="2020-6-9-周二"><a href="#2020-6-9-周二" class="headerlink" title="2020.6.9-周二"></a>2020.6.9-周二</h4><ul>
-<li>博客彻底搭建完（遇到了很多坑，折腾了很久）</li>
-<li>练科三</li>
-</ul>
+<h5 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h5><blockquote>
+<p>next就是hexo的一个主题，很合我的胃口，但是有些坑，弄了很久，有点闹心。。</p>
+</blockquote>
+<p>部署非常简单，就是将其clone到主题文件夹然后修改配置文件就可以用了。</p>
+<p>不过有两个版本的next，以前那个已经没有维护了，这里放出长期维护的那个：</p>
+<p><a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">Next长期维护版本</a></p>
+<p>还有一个坑就是，它的样式主题只能用Muse，其他的github上都无法显示。</p>
+<p>哎，对于强迫症而言非常难受，这里起码耗费了3个小时，十分闹心。</p>
 
     </div>
 
@@ -287,7 +305,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%91%A8%E8%AE%B0/" rel="tag"># 周记</a>
+              <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag"># 博客搭建</a>
           </div>
 
         
@@ -296,13 +314,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/07/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/01/" rel="prev" title="01 - 安装环境&&实现一个文字扫描仪程序">
-      <i class="fa fa-chevron-left"></i> 01 - 安装环境&&实现一个文字扫描仪程序
+    <a href="/2020/06/07/%E7%94%9F%E6%B4%BB/%E5%91%A8%E8%AE%B0/2020.6.7-2020.6.14/" rel="prev" title="2020.6.7-2020.6.14">
+      <i class="fa fa-chevron-left"></i> 2020.6.7-2020.6.14
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/06/08/%E5%AD%A6%E4%B9%A0/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/%E8%B5%B7%E6%AD%A5/" rel="next" title="Hexo+Next搭建起步">
-      Hexo+Next搭建起步 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -361,7 +376,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2020-6-7-2020-6-14"><span class="nav-number">1.</span> <span class="nav-text">2020.6.7-2020.6.14</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2020-6-7-周日"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">2020.6.7-周日</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2020-6-8-周一"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2020.6.8-周一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2020-6-9-周二"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">2020.6.9-周二</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#起步"><span class="nav-number">1.</span> <span class="nav-text">起步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hexo"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Next"><span class="nav-number">1.0.0.1.1.</span> <span class="nav-text">Next</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

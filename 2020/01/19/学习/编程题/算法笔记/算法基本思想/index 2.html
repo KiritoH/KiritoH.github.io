@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"kiritoh.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="算法基本思想零. 杂 查找类题型,如果数据集不算大,可以直接遍历一遍来找,如果数据集比较大,可以采取先使其有序,然后再二分查找,所以一下知识必须掌握:  二分查找 快速排序 归并排序   EOF题本地调试的办法:  mac的clion: 用debug模式,然后输入后cmd+D win下: 输入后,直接ctrl+Z然后enter win下vs: 要最后加个getchar()   如果想要把字符串赋值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法基本思想">
+<meta property="og:url" content="http://kiritoh.github.io/2020/01/19/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3/index.html">
+<meta property="og:site_name" content="KiritoH&#39;s Blog">
+<meta property="og:description" content="算法基本思想零. 杂 查找类题型,如果数据集不算大,可以直接遍历一遍来找,如果数据集比较大,可以采取先使其有序,然后再二分查找,所以一下知识必须掌握:  二分查找 快速排序 归并排序   EOF题本地调试的办法:  mac的clion: 用debug模式,然后输入后cmd+D win下: 输入后,直接ctrl+Z然后enter win下vs: 要最后加个getchar()   如果想要把字符串赋值">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200218183903222.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200218183828757.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200219104254630.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200220083132445.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200223142949072.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228105701119.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228105925515.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228110639057.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228115647733.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228115948618.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228160521842.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228160700572.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228165028325.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229110201266.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229110714984.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229110921724.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229110937753.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229111909950.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229112337845.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229112517272.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229113242106.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229113256235.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229113659422.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229113925565.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301210830244.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301210947334.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301211225875.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301211242671.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301211407202.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301213447440.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301220829199.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301220839119.png">
+<meta property="article:published_time" content="2020-01-19T10:01:17.612Z">
+<meta property="article:modified_time" content="2020-06-10T00:47:03.364Z">
+<meta property="article:author" content="KiritoH">
+<meta property="article:tag" content="基本思想">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200218183903222.png">
+
+<link rel="canonical" href="http://kiritoh.github.io/2020/01/19/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>算法基本思想 | KiritoH's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">KiritoH's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/01/19/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
+      <meta itemprop="name" content="KiritoH">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KiritoH's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法基本思想
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-19 18:01:17" itemprop="dateCreated datePublished" datetime="2020-01-19T18:01:17+08:00">2020-01-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-10 08:47:03" itemprop="dateModified" datetime="2020-06-10T08:47:03+08:00">2020-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">算法笔记</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="算法基本思想"><a href="#算法基本思想" class="headerlink" title="算法基本思想"></a>算法基本思想</h1><h2 id="零-杂"><a href="#零-杂" class="headerlink" title="零. 杂"></a>零. 杂</h2><ul>
+<li><p>查找类题型,如果数据集不算大,可以直接遍历一遍来找,如果数据集比较大,可以采取先使其有序,然后再二分查找,所以一下知识必须掌握:</p>
+<ul>
+<li>二分查找</li>
+<li>快速排序</li>
+<li>归并排序</li>
+</ul>
+</li>
+<li><p>EOF题本地调试的办法:</p>
+<ul>
+<li>mac的clion: 用debug模式,然后输入后cmd+D</li>
+<li>win下: 输入后,直接ctrl+Z然后enter</li>
+<li>win下vs: 要最后加个getchar()</li>
+</ul>
+</li>
+<li><p>如果想要把字符串赋值给另一个字符串的话,只能用copy的方式,或者初始化定义,这一点可以说是相当不好了..<br><code>strcpy(DD,week[strs[0][i]-&#39;A&#39;]);</code></p>
+</li>
+<li><p>以后题目做不出来时,看看解题思路,按照解题思路写分步注释,然后自己根据注释尝试去写,还是写不出来就看看题解,同理,自己做题时也可以先把解题思路的注释分步写好,然后一步一步去实现</p>
+</li>
+<li><p>PAT不支持<code>gets();</code></p>
+</li>
+<li><p><code>sprintf</code>可以用来<code>int</code>转<code>string</code></p>
+</li>
+<li><p><code>std::reverse</code>的用法要记牢,对于字符串处理,有时候取逆是一个很好的做法</p>
+</li>
+</ul>
+<h2 id="一-排序"><a href="#一-排序" class="headerlink" title="一. 排序"></a>一. 排序</h2><ul>
+<li><code>stl</code>的<code>sort()</code>算法非常好用,几乎不用去记忆那些算法,方便省事!</li>
+<li>但需要注意的是,<code>cmp</code>的写法一定要掌握好</li>
+</ul>
+<h2 id="二-散列"><a href="#二-散列" class="headerlink" title="二. 散列"></a>二. 散列</h2><h3 id="0-概述"><a href="#0-概述" class="headerlink" title="0. 概述"></a>0. 概述</h3><p><strong>其实就是空间换时间</strong></p>
+<ul>
+<li>平时的简单用法就是取一个非常大的数组,以数组下标来对应某个元素,数组内容用来记录,极大降低了时间复杂度,对于oj题(空间一般都很大),完全是可以考虑这种做法!</li>
+<li>不过上一种做法只适用于那种数值不大,且是数字标识的元素,一旦元素过多,或者是内容是字符串一类的情况,上一种方法就不再适用.</li>
+<li>其实第一种方法便是散列只不过–$H(key) = key$</li>
+<li>散列的真正精髓是<code>将元素通过一个函数转换为整数,使得该整数可以尽量唯一地代表这个元素</code></li>
+</ul>
+<h3 id="1-常用的散列函数"><a href="#1-常用的散列函数" class="headerlink" title="1. 常用的散列函数"></a>1. 常用的散列函数</h3><ul>
+<li>$H(key) = key$—即第一种方法,最常见最实用</li>
+<li>$H(key) = a*key+b$—线性变化</li>
+<li>$H(key) = key% mod$—除留余数法</li>
+</ul>
+<h3 id="2-冲突避免的方法"><a href="#2-冲突避免的方法" class="headerlink" title="2. 冲突避免的方法"></a>2. 冲突避免的方法</h3><ul>
+<li>线性探查法</li>
+<li>平方探查法</li>
+<li>链地址法</li>
+</ul>
+<h3 id="3-字符串hash初步—key不为整数情况"><a href="#3-字符串hash初步—key不为整数情况" class="headerlink" title="3. 字符串hash初步—key不为整数情况"></a>3. 字符串hash初步—key不为整数情况</h3><ul>
+<li><p><strong>例1: 将一个二维整点P的坐标映射为一个整数,使得整点P可以由该整数唯一地代表.</strong><br>  假设一个整点坐标是$(x,y)$,其中$0 \leq x,y \leq Range$,那么可以令hash函数为$H(P) = x \times Range +y$,这样任意两点的hash值都<code>不会相等</code>,可以用$H(P)$来唯一地代表该整点P,接着可以通过hash的方法<code>进一步映射到较小的范围</code><br>  <em>(相当于二级hash,第一级把它转换为整数(唯一表示),第二步通过对应的整数来用hash对应)</em></p>
+</li>
+<li><p>至于<strong>字符串hash</strong>,就是将<code>一个字符串S映射为一个整数</code>,使得该整数可以尽可能唯一地表示字符串S,该做法的核心是:<strong>进制转换</strong></p>
+<ul>
+<li><p>如果只有字母<code>A-Z</code>,没有小写,那么<code>A-Z</code>可以对应<code>0-25</code>,相当于<code>26进制</code>数,然后对应的<code>十进制</code>数定是唯一的,只需要将其转换为<code>十进制</code>数即可</p>
+</li>
+<li><p>如果大写小写都有,那么<code>A-Z</code>对应<code>0-25</code>,<code>a-z</code>对应<code>26-51</code>,相当于<code>52进制</code>数转换为<code>十进制</code>数.</p>
+</li>
+<li><p>最后一种情况,含有大小写字母和数字:</p>
+<ul>
+<li>增大进制到62位</li>
+<li>如果数字位置确定,可以在字母部分转换为十进制后,将数字部分拼接到后面</li>
+</ul>
+</li>
+<li><p>代码举例:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//52进制转换为10进制</span></span><br><span class="line"><span class="comment">//字符串左位为最高位</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">hashFunc</span><span class="params">(<span class="keyword">char</span> S[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span> id = <span class="number">0</span>;</span><br><span class="line">  	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)&#123;</span><br><span class="line">  			<span class="keyword">if</span>(S[i]&gt;=<span class="string">'A'</span>&amp;&amp;S[i]&lt;=<span class="string">'Z'</span>)&#123;</span><br><span class="line">      	    id = id * <span class="number">52</span> + (S[i] - <span class="string">'A'</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(S[i]&lt;=<span class="string">'z'</span>&amp;&amp;S[i]&gt;=<span class="string">'a'</span>)&#123;</span><br><span class="line">        	  id = id * <span class="number">52</span> + (S[i] - <span class="string">'a'</span>)+<span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="keyword">return</span> id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我必须解释上面那段代码:</p>
+<p>它用了另一种我没有用过的转换十进制的方法;</p>
+<p>举个简单例子:</p>
+<p><code>10进制</code>下:</p>
+<p>​         $4321 = 1\times 10^0+2\times 10^1+3 \times 10^2+4\times 10^3$ </p>
+<p>同理可以得到:</p>
+<p><code>52进制</code>下:</p>
+<p>​        $4321 = 1\times 52^0+2\times 52^1+3 \times 52^2+4\times 52^3$</p>
+</blockquote>
+</li>
+<li><p>一个问题:</p>
+<p>  <strong>给出N个字符串(由恰好三位大写字母组成),再给出M个查询字符串,问每个查询字符串在N个字符串中出现的次数</strong></p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//个人代码:</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">hashFunc</span><span class="params">(<span class="keyword">char</span> S[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> id = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">        id = id * <span class="number">26</span> + (S[i] - <span class="string">'A'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N, M;</span><br><span class="line">    <span class="comment">//由于字符串为三个大写字母,所以按26进制算,其十进制最大不超过20000,直接一一对应hash</span></span><br><span class="line">    <span class="keyword">int</span> times[<span class="number">20000</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d %d"</span>, &amp;N, &amp;M);</span><br><span class="line">    <span class="keyword">char</span> str[<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>, str);</span><br><span class="line">        times[hashFunc(str)]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; i++) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>, str);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>, times[hashFunc(str)]);</span><br><span class="line">        <span class="keyword">if</span> (i != M - <span class="number">1</span>)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试数据</span></span><br><span class="line"><span class="comment">10 2</span></span><br><span class="line"><span class="comment">ABC ACB DHF VHI DHF CHV FHD ABC ABC ACB</span></span><br><span class="line"><span class="comment">ABC ACB</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、递归"><a href="#三、递归" class="headerlink" title="三、递归"></a>三、递归</h2><h3 id="1-分治"><a href="#1-分治" class="headerlink" title="1. 分治"></a>1. 分治</h3><blockquote>
+<p>分治法将原问题划分成若干个规模较小而结构与原问题相同或相似的子问题，然后分别解决这些子问题，最后合并子问题的解，即可得到原问题的解。</p>
+</blockquote>
+<p><code>三个步骤：</code></p>
+<ol>
+<li>分解：<strong>将原问题划分成若干个规模较小而结构与原问题相同或相似的子问题</strong></li>
+<li>解决：<strong>递归求解所有子问题。如果存在子问题的规模小到可以直接解决，就直接解决它。</strong></li>
+<li>合并：<strong>将子问题的解合并为原问题的解。</strong></li>
+</ol>
+<blockquote>
+<p>需要指出的是，分治法分解出的子问题应当是相互独立、没有交叉的。如果存在两个子问题有相交部分，那么不应当使用分治法解决。</p>
+</blockquote>
+<p>最后：</p>
+<p><strong>分治法是一种算法思想，既可以使用递归的手段去实现，也可以通过非递归的手段去实现</strong></p>
+<h3 id="2-递归"><a href="#2-递归" class="headerlink" title="2. 递归"></a>2. 递归</h3><ol>
+<li>定义</li>
+</ol>
+<p>玩笑定义：</p>
+<blockquote>
+<p>要理解递归，你要先理解递归，直到你能理解递归</p>
+</blockquote>
+<p>真实定义：</p>
+<blockquote>
+<p>递归就在于反复调用自身函数，但是每次把问题范围缩小，直到范围小到可以直接得到边界数据的结果，然后再在返回的路上求出对应的解。</p>
+<p>由此：<strong>递归很适合用来实现分治思想</strong></p>
+</blockquote>
+<ol start="2">
+<li><p>两个重要概念</p>
+<ol>
+<li><p><code>递归边界</code></p>
+<p> 即分解的尽头</p>
+</li>
+<li><p><code>递归式(或称递归调用)</code></p>
+<p> 将原问题分解为若干个子问题的手段</p>
+</li>
+</ol>
+</li>
+<li><p>重要例子：</p>
+<ol>
+<li><p>使用递归求解n的阶乘</p>
+<ul>
+<li><p>递归式：$F(n) = F(n-1)\times n$</p>
+</li>
+<li><p>递归边界：$F(0) = 1$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">F</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;<span class="comment">//边界</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n*F(n<span class="number">-1</span>);<span class="comment">//递归式</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,F(n));<span class="comment">//入口</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>递归图</p>
+<p>  <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200218183903222.png" alt="image-20200218183903222"></p>
+</li>
+</ul>
+</li>
+<li><p>求斐波那契数列（Fibonacci）数列的第n项：</p>
+<blockquote>
+<p>斐波那契数列是满足：</p>
+<p>$F(0) = 1,F(1) = 1,F(n) = F(n-1)+F(n-2)(n\geq 2)$</p>
+<p>的数列，数列前几项为$1,1,2,3,5,8,13,21,…$。</p>
+</blockquote>
+<ul>
+<li>递归式：$F(n) = F(n-1)+F(n-2)(n\geq 2)$</li>
+<li>递归边界：$F(0) = 1,F(1) = 1$</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">F</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span>||n == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;<span class="comment">//边界</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> F(n<span class="number">-1</span>) + F(n<span class="number">-2</span>);<span class="comment">//递归式</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,F(n));<span class="comment">//入口</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>递归图：</p>
+<p>  <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200218183828757.png" alt="image-20200218183828757"></p>
+</li>
+</ul>
+<blockquote>
+<p>处理递归问题时可以画递归图来理清思路</p>
+</blockquote>
+</li>
+<li><p>全排列</p>
+<blockquote>
+<p>一般吧1~n这n个整数按<code>某个顺序</code>摆放的结果称为这n个整数的一个排列，而全排列指着n个整数能形成的所有排列。</p>
+</blockquote>
+<p> 现在需要实现按字典序从小到大的顺序输出1~n的全排列，其中<strong>$(a_1,a_2,…,a_n)$的字典序小于$（b_1,b_2,…,b_n）$是指存在一个i，使得$a_1 = b_1, a_2 = b_2, …,a_{i-1} = b_{i-1},a_i&lt;b_i$成立</strong></p>
+</li>
+</ol>
+</li>
+</ol>
+<pre><code>说实话它的实现对我来说很难，这里我把代码照书敲了一遍，用debug运行了几遍，大致理解思路了，但是要自己做出来，还是有点困难
+
+网上搜的一些解法详解：
+
+&gt;写递归代码的关键就是找到如何将大问题分解为小问题的规律，并且基于此写出递推公式，然后再推敲终止条件，最后将递推公式和终止条件翻译成代码。
+
+&gt; 编写递归代码的关键是，只要遇到递归，我们就把它抽象成一个递推公式，**不用想一层层的调用关系，不要试图用人脑去分解递归的每个步骤。**
+
+* 递归式：$f(1, 2, ... n) = \{ 第一位是 1, f(n-1)\} + \{第一位是 2, f(n-1)\} +...+\{第一位是 n, f(n-1)\}$
+*  递归边界：`index == n + 1`
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//困得不行,不明所以,我决定手动敲一下代码来验证</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">11</span>;</span><br><span class="line"><span class="comment">//P为当前排列, hashTable记录整数x是否已经在P中</span></span><br><span class="line"><span class="keyword">int</span> n, P[maxn], hashTable[maxn] = &#123;<span class="literal">false</span>&#125;;</span><br><span class="line"><span class="comment">//当前处理排列的第index号位</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">generateP</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//递归边界,已经处理完排列的1~n位</span></span><br><span class="line">    <span class="keyword">if</span>(index == n + <span class="number">1</span>) &#123; </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d"</span>, P[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//枚举1~n,试图将x填入P[index]</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> x = <span class="number">1</span>; x &lt;= n; x++)&#123;  </span><br><span class="line">        <span class="comment">//如果x不在P[0]~P[index-1]中</span></span><br><span class="line">        <span class="keyword">if</span>(hashTable[x] == <span class="literal">false</span>) &#123; </span><br><span class="line">            <span class="comment">//令P的第index位为x,即把x加入当前排列</span></span><br><span class="line">            P[index] = x; </span><br><span class="line">            <span class="comment">//记x已在P中</span></span><br><span class="line">            hashTable[x] = <span class="literal">true</span>;</span><br><span class="line">            <span class="comment">//处理排列的第index+1号位</span></span><br><span class="line">            generateP(index + <span class="number">1</span>);</span><br><span class="line">            <span class="comment">//已处理完P[index]位x的子问题,状态还原</span></span><br><span class="line">            hashTable[x] = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    n = <span class="number">3</span>;</span><br><span class="line">    generateP(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre><ol start="4">
+<li><p>n皇后问题</p>
+<blockquote>
+<p>n皇后是指在一个$n\times n$的国际象棋棋盘上放置n个皇后，使得这n个皇后两两均不在同一行、同一列、同意对角线上，求合法的方案数。</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200219104254630.png" alt="image-20200219104254630"></p>
+</blockquote>
+<p> 如果采取组合数来遍历每一种情况，则需要$C_{n\times n}^n$的枚举量，而考虑到每行每列只能有一个，所以每放一个时考虑行号，就只需要$n!$个排列</p>
+<p> 于是可以在全排列代码的基础上求解。由于当达到递归边界是生成了一个排列，所以需要在其内部判断是否为合法方案，即遍历每两个皇后，判断他们是否在同一对角线上（不在同一行同一列是显然的），若不是，则累计计数变量count即可。</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//搞了好久才理解，要注意看注释！</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">11</span>;</span><br><span class="line"><span class="comment">//P为当前排列, hashTable记录整数x是否已经在P中</span></span><br><span class="line"><span class="comment">//n为元素数量,即皇后数量</span></span><br><span class="line"><span class="keyword">int</span> n, P[maxn], hashTable[maxn] = &#123;<span class="literal">false</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> count_h = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 即利用上次写的全排列代码来生成一个排列(毕竟所有皇后都要不同行)</span></span><br><span class="line"><span class="comment"> * 然后在边界时(也即得到一个排列时),对里面的元素进行两两逐个判断,看看是否符合不在对角线原则</span></span><br><span class="line"><span class="comment"> * 而我所以困惑的,为何不是二维坐标,实际上就是二维坐标,形式为:(下标,下标所对应的值)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">generateP</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123; <span class="comment">//index表示从哪个开始,用1即可</span></span><br><span class="line">    <span class="comment">//递归边界,生成一个排列</span></span><br><span class="line">    <span class="keyword">if</span>(index == n+<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="comment">//flag为true表示当前排列为一个合法方案</span></span><br><span class="line">        <span class="keyword">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">1</span>; i &lt;= n; i++)&#123;</span><br><span class="line">            <span class="comment">//遍历任意两个皇后</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt;= n; j++)&#123;</span><br><span class="line">                <span class="comment">//如果在同一条对角线上</span></span><br><span class="line">                <span class="comment">/**</span></span><br><span class="line"><span class="comment">                 * 何时为同一对角线上呢?</span></span><br><span class="line"><span class="comment">                 * 由于棋盘对角线为45度,所以定有两子的行之差和列之差相等(等腰直角三角形!)</span></span><br><span class="line"><span class="comment">                 */</span></span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">abs</span>(i - j) == <span class="built_in">abs</span>(P[i] - P[j]))&#123;</span><br><span class="line">                    <span class="comment">//不合法</span></span><br><span class="line">                    flag = <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//若当前方案合法,令count加一</span></span><br><span class="line">        <span class="keyword">if</span>(flag) count_h++;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> x = <span class="number">1</span>; x &lt;= n; x++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (hashTable[x] == <span class="literal">false</span>)&#123;</span><br><span class="line">            P[index] = x;</span><br><span class="line">            hashTable[x] = <span class="literal">true</span>;</span><br><span class="line">            generateP(index + <span class="number">1</span>);</span><br><span class="line">            hashTable[x] = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    n = <span class="number">8</span>;</span><br><span class="line">    generateP(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>, count_h);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>不过这种枚举所有情况，然后判断每一种情况是否合法的做法是非常朴素的</strong></p>
+<blockquote>
+<p>因此一般吧不使用优化算法、直接用朴素算法来解决问题的做法称为<code>暴力法</code></p>
+</blockquote>
+<p> 事实上，当已经放置一部分的皇后是，可能剩余的皇后无论怎样放置都不可能合法，此时就没有必要继续往下递归了，直接返回上层即可，这样可以减少很多计算量。</p>
+<p> 一般来说，如果在到达递归边界前的某层，由于一些事实导致不需要往任何一个子问题递归，就可以直接返回上一层。一般把这种做法成为<code>回溯法</code>。</p>
+<p> 以下代码采用了回溯的写法：</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">11</span>;</span><br><span class="line"><span class="comment">//P为当前排列, hashTable记录整数x是否已经在P中</span></span><br><span class="line"><span class="comment">//n为元素数量,即皇后数量</span></span><br><span class="line"><span class="keyword">int</span> n, P[maxn], hashTable[maxn] = &#123;<span class="literal">false</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> count_h = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">generateP</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123; <span class="comment">//index表示从哪个开始,用1即可</span></span><br><span class="line">    <span class="comment">//递归边界,生成一个合法方案(而不是一个单纯的排列)</span></span><br><span class="line">    <span class="keyword">if</span>(index == n+<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="comment">//能到这里一定合法</span></span><br><span class="line">        count_h++;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//第x行</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> x = <span class="number">1</span>; x &lt;= n; x++)&#123;</span><br><span class="line">        <span class="comment">//第x行还没有皇后</span></span><br><span class="line">        <span class="keyword">if</span> (hashTable[x] == <span class="literal">false</span>)&#123;</span><br><span class="line">            <span class="comment">//flag为true表示当前皇后不会和之前的皇后冲突</span></span><br><span class="line">            <span class="keyword">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">            <span class="comment">//遍历之前的皇后</span></span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 由于每一个皇后都要与之前的皇后遍历,所以前面的皇后两两之间都合法,所以只需要</span></span><br><span class="line"><span class="comment">             * 将当前皇后与之前所有皇后两两之间判断一次即可,而不需要像上个做法一样,要两个for嵌套</span></span><br><span class="line"><span class="comment">             * 这里就只用到了一个for</span></span><br><span class="line"><span class="comment">             */</span> </span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> pre = <span class="number">1</span>; pre &lt; index; pre++)&#123;</span><br><span class="line">                <span class="comment">//第index列皇后的行号为x,第pre列皇后的行号为P[pre]</span></span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">abs</span>(index - pre) == <span class="built_in">abs</span>(x - P[pre]))&#123;</span><br><span class="line">                    flag = <span class="literal">false</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//如果可以吧皇后放到第x行</span></span><br><span class="line">            <span class="keyword">if</span>(flag)&#123;</span><br><span class="line">                <span class="comment">//令第index列皇后的行号为x</span></span><br><span class="line">                P[index] = x;</span><br><span class="line">                hashTable[x] = <span class="literal">true</span>;</span><br><span class="line">                generateP(index + <span class="number">1</span>);</span><br><span class="line">                hashTable[x] = <span class="literal">false</span>; <span class="comment">//撤销</span></span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    n = <span class="number">8</span>;</span><br><span class="line">    generateP(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>, count_h);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ol>
+<h2 id="四、贪心"><a href="#四、贪心" class="headerlink" title="四、贪心"></a>四、贪心</h2><h3 id="1-简单贪心"><a href="#1-简单贪心" class="headerlink" title="1.简单贪心"></a>1.简单贪心</h3><p>概述：</p>
+<blockquote>
+<p>贪心法是求解一类最优化问题的方法，它总是考虑当前状态下<strong>局部最优（或较优）</strong>的策略，来是全局达到最优（或较优）。</p>
+</blockquote>
+<p>显然，如果采取较优而非最优的策略，得到的全局结果也无法是最优的。而要获得最优结果，则要求中间的每步策略都是最优的，因此严谨使用贪心来求解最优化问题需要对采取策略进行证明。</p>
+<p><strong>证明的一般思路是使用反证法及数学归纳法：</strong></p>
+<blockquote>
+<p>即假设策略不能导致最优解，然后通过一系列推导来得到矛盾，以此证明策略是最优的，最后使用数学归纳法保证全局最优。</p>
+</blockquote>
+<p>不过对于平常使用来说，也许没有时间或不太容易对想到的策略进行严谨的证明（贪心的证明比贪心本身更难），<strong>因此一般来说，如果在想到某个似乎可行的策略，并且自己无法举出反例，那么久勇敢地实现它</strong></p>
+<ul>
+<li>例1： [1020 月饼 (25分)](/Users/kirito/Documents/Typora–markdown笔记/笔记/复试/机试/PAT刷题/B组/1020 月饼 (25分).md)</li>
+<li>例2： [1023 组个最小数 (20分)](/Users/kirito/Documents/Typora–markdown笔记/笔记/复试/机试/PAT刷题/B组/1023 组个最小数 (20分).md)</li>
+</ul>
+<blockquote>
+<p>以上两例均为简单题。。</p>
+</blockquote>
+<h3 id="2-区间贪心"><a href="#2-区间贪心" class="headerlink" title="2. 区间贪心"></a>2. 区间贪心</h3><p>概述：</p>
+<blockquote>
+<p>通过上面两个例子，对贪心可以有一个大致的了解。</p>
+<p>下面来看一个稍微复杂一点的问题，即<strong>区间不相交问题：</strong></p>
+<p><strong>给出$N$个开区间$(x,y)$，从中选择尽可能多的开区间，使得这些开区间两两没有交集。</strong></p>
+<p>例如对开区间$(1,3),(2,4),(3,5),(6,7)$来说，可以选择最多三个区间$(1,3),(3,5),(6,7)$，它们互相没有交集</p>
+</blockquote>
+<p>思路：</p>
+<blockquote>
+<p>首先考虑最简单的情况，如果开区间$I_1$被开区间$I_2$包含，如图示，那么显然选择$I_1$是最好的选择，因为如果选择$I_1$,那么就有更大的空间去容纳其他开区间。</p>
+<p>接下来把所有开区间按左端点x从大到小排序，如果去除掉区间包含的情况，那么一定有$y_1&gt;y_2&gt;…&gt;y_n$成立，如图示。</p>
+<p>现在考虑应当如何选取区间。通过观察会发现，$I_1$的右边有一段是一定不会和其他区间重叠的，如果把它去掉，那么$I_1$的左边剩余部分就会被$I_2$包含，由图$a)$的情况可知，应当向选择$I_1$.</p>
+<p><strong>因此对这种情况，总是先选择左端点最大的区间。（这是一个相对概念！）</strong></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200220083132445.png" alt="image-20200220083132445"></p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">10</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Inteval</span>&#123;</span></span><br><span class="line">    <span class="comment">//开区间左右端点</span></span><br><span class="line">    <span class="keyword">int</span> x,y;</span><br><span class="line">&#125;I[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(Inteval a, Inteval b)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//先按左端点从大到小排序</span></span><br><span class="line">    <span class="keyword">if</span> (a.x != b.x) <span class="keyword">return</span> a.x &gt; b.x;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> a.y &lt; b.y; <span class="comment">//左端点相同的按右端点从小到大排序</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n), n != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="comment">//读数据</span></span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;I[i],x, &amp;I[i].y);</span><br><span class="line">        &#125;</span><br><span class="line">        sort(I, I+n, cmp);</span><br><span class="line">        <span class="comment">//ans记录不相交区间个数,lastX记录上一个被选中区间的左端点</span></span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">1</span>, lastX = I[<span class="number">0</span>].x;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(I[i].y &lt;= lastX)&#123;</span><br><span class="line">                lastX = I[i].x;</span><br><span class="line">                ans++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n, ans"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是，<strong>总是先选择右端点最小的区间</strong>的策略也是可行的。</p>
+<blockquote>
+<p>与这个问题类似的区间选点问题：<strong>给出N个闭区间$[x,y]$,求最少要确定多少个点，才能使每个闭区间都至少存在一个点</strong>。例如对于闭区间$[1,4],[2,6],[5,7]$来说，需要两个点（如3、5）才能保证每个闭区间内都有至少一个点</p>
+<p>事实上，这个问题与区间不相交问题的策略是一致的。首先，对于图$a)$，如果闭区间$I_1$被闭区间$I_2$包含，那么在$I_1$中取点可以保证这个点一定是在$I_2$内。接着把所有左端点按从大到小排列，去除掉区间包含的情况，就可以得到图$b)$。显然由于每个闭区间买最需要存在一个点，因此对左端点最大的区间$I_1$来说，取哪个点可以让他尽可能多地覆盖其他区间？很显然，只需要取左端点即可，这样这个点就可以覆盖到尽可能多的区间。区间选点问题的代码只需要把区间不相交问题代码中的<code>I[i].y &lt;= lastX</code>改为<code>I[i].y &lt; lastX</code>即可。</p>
+<p><code>????为何？？？</code></p>
+</blockquote>
+<p>​    </p>
+<p>总的来说，贪心是用来解决一类最优化问题，并希望由<strong>局部最优策略来推得全局最优结果的算法思想。</strong></p>
+<p>贪心算法使用的问题一定满足<strong>最优子结构性质</strong>，即一个问题的最优解可以由它的子问题的最优解有效地构造出来。</p>
+<p>显然，不是所有问题都适合使用贪心法，但是这并不妨碍贪心算法称为一个简洁、使用、高效的算法。</p>
+<h2 id="五、二分"><a href="#五、二分" class="headerlink" title="五、二分"></a>五、二分</h2><h3 id="1-二分查找"><a href="#1-二分查找" class="headerlink" title="1. 二分查找"></a>1. 二分查找</h3><p>要求：</p>
+<ul>
+<li>有序</li>
+<li>线性表</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right) &#123;  <span class="comment">//是小于等于！！！！</span></span><br><span class="line">        mid = (left + right)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(A[mid] == x) <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(A[mid] &gt; x) right = mid - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> left = mid +<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>; <span class="comment">//查找失败;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> A[<span class="number">10</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,binarySearch(A,<span class="number">0</span>,<span class="number">9</span>,<span class="number">8</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进一步的问题：</p>
+<blockquote>
+<p>如果递增序列A中的元素可能重复，那如何对给定的与查询元素x，<strong>求出序列的中第一个大于等于x的元素的位置L以及第一个大于x元素的位置R，这样x在序列的存在区间就是左闭右开区间$[L,R)$</strong></p>
+<p>如：{1,3,3,3,6},对3就是：L=1、R=4（从零起）</p>
+</blockquote>
+<p>分成两小问做：</p>
+<ul>
+<li><p>第一问：求序列中的第一个大于等于x的元素的位置</p>
+<ol>
+<li><p>$A[mid]\geq x$,说明第一个大于等于x的元素一定在mid处或mid左侧，应往左子区间$[left,mid]$继续查</p>
+</li>
+<li><p>如果$A[mid]&lt;x$,说明第一个大于等于x的元素一定在mid右侧，应往右子区间$[mid+1,right]$继续查询</p>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lower_bound</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt; right) &#123; <span class="comment">//left == right意味着找到唯一位置</span></span><br><span class="line">        mid = (left + right)/<span class="number">2</span>; </span><br><span class="line">        <span class="keyword">if</span>(A[mid] &gt;= x) right = mid;</span><br><span class="line">        <span class="keyword">else</span> left = mid +<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left; <span class="comment">//返回夹出来的位置;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>第二问：求序列中第一个大于x的元素的位置</p>
+<ol>
+<li><p>$A[mid] &gt; x$,说明第一个大于x的元素一定在mid处或mid左处</p>
+</li>
+<li><p>$A[mid]&lt;=x$,说明第一个大于x的元素一定在mid右处</p>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">upper_bound</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt; right) &#123; <span class="comment">//left == right意味着找到唯一位置</span></span><br><span class="line">        mid = (left + right)/<span class="number">2</span>; </span><br><span class="line">        <span class="keyword">if</span>(A[mid] &gt; x) right = mid;</span><br><span class="line">        <span class="keyword">else</span> left = mid +<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left; <span class="comment">//返回夹出来的位置;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>通过思考发现，两个子函数其实都在解决这样一个问题：<strong>寻找有序序列中第一个满足某条件的元素的位置。</strong></p>
+<p>  这是一个非常重要且经典的问题，平时可以碰到的大部分二分法问题都可以归结于这个问题。</p>
+<blockquote>
+<p>此处总结了解决此类问题的固定模板。显然，所谓的“某条件”在序列中一定是从左到右先不满足，然后满足的</p>
+</blockquote>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解决“寻找有序序列第一个满足某条件的元素的位置”问题的固定模板</span></span><br><span class="line"><span class="comment">//二分区间为左闭右闭，初值必须能覆盖接的所有可能取值</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">int</span> mid;</span><br><span class="line">  	<span class="keyword">while</span>(left &lt; right)&#123;</span><br><span class="line">        <span class="keyword">if</span>(条件成立)&#123;</span><br><span class="line">          right = mid;</span><br><span class="line">        &#125; <span class="keyword">else</span>&#123; <span class="comment">//条件不成立</span></span><br><span class="line">          left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  综上：如果目的是查找<strong>序列中是否存在满足某条件的元素</strong>，那么用本小节的二分查找的写法最为合适</p>
+</li>
+</ul>
+<h3 id="2-二分法拓展"><a href="#2-二分法拓展" class="headerlink" title="2. 二分法拓展"></a>2. 二分法拓展</h3><p>之前讲解的是整数情况下的二分查询问题，事实上二分法的应用远不止此，下面介绍几个相关的例子。</p>
+<ol>
+<li><p><strong>如何计算$\sqrt 2$的近似值</strong></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> eps = <span class="number">1e-5</span>;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(<span class="keyword">double</span> x)</span></span>&#123; <span class="comment">//f(x)</span></span><br><span class="line">    <span class="keyword">return</span> x * x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">calSqrt</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> left = <span class="number">1</span>,right = <span class="number">2</span>, mid;</span><br><span class="line">    <span class="keyword">while</span>(right - left &gt; eps)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(f(mid) &gt; <span class="number">2</span>)&#123;</span><br><span class="line">            right = mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            left = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 事实上，计算$\sqrt 2$的近似值问题其实是这样一个问题的特例：<strong>给定一个在$[L,R]$上的单调函数$f(x)$，求方程$f(x)=0$的根</strong>，对应的代码：</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> eps = <span class="number">1e-5</span>;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(<span class="keyword">double</span> x)</span></span>&#123; <span class="comment">//f(x)---必须是单调的！</span></span><br><span class="line">    <span class="keyword">return</span> ....;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">calSqrt</span><span class="params">(<span class="keyword">double</span> L, <span class="keyword">double</span> R)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(R - L &gt; eps)&#123;</span><br><span class="line">        mid = (L + R) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(f(mid) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            R = mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            L = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>装水问题：</strong></p>
+<blockquote>
+<p>有一个侧面看上去是半圆的储水装置，该半圆的半径为R，要求往里面注入高度为h的水，使其在侧面看去的面积与半圆面积的比例恰好为r，先给定R和r，求高度h。</p>
+<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200223142949072.png" alt="image-20200223142949072" style="zoom:50%;" />
+</blockquote>
+<p> 直接求表达式不现实，可以利用二分法来近似求解：</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> PI = <span class="built_in">acos</span>(<span class="number">-1.0</span>); <span class="comment">//PI</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> eps = <span class="number">1e-5</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(<span class="keyword">double</span> R, <span class="keyword">double</span> h)</span></span>&#123; <span class="comment">//计算r = f(h),由实际含义可知r关于h递增</span></span><br><span class="line">    <span class="keyword">double</span> alpha = <span class="number">2</span> * <span class="built_in">acos</span>((R-h)/R);</span><br><span class="line">    <span class="keyword">double</span> L = <span class="number">2</span> * <span class="built_in">sqrt</span>(R*R - (R-h)*(R-h));</span><br><span class="line">    <span class="keyword">double</span> S1 = alpha * R * R /<span class="number">2</span> - L * (R - h) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">double</span> S2 = PI * R * R / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">return</span> S1 / S2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">solve</span><span class="params">(<span class="keyword">double</span> R, <span class="keyword">double</span> r)</span></span>&#123;</span><br><span class="line">    <span class="comment">//h的取值范围为[0,R]</span></span><br><span class="line">    <span class="keyword">double</span> left = <span class="number">0</span>, right = R, mid; </span><br><span class="line">    <span class="keyword">while</span>((right-left)&gt;eps)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(f(R,mid) &gt; r)&#123;</span><br><span class="line">            right = mid;</span><br><span class="line">        &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            left = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>木棒切割问题：</strong></p>
+<blockquote>
+<p>给出N根木棒，长度均已知，现在希望通过切割他们来得到至少K段长度相等的木棒（长度必须是整数），问这些长度相等的木棒最长能有多长。</p>
+</blockquote>
+<p> 对于这个问题来说，首先可以注意到一个结论：<strong>如果长度相等的木棒的长度L越长，那么可以得到的木棒段数k越少。</strong>从这个角度出发便可以想到的算法，即二分答案（最大长度L），根据对当前长度L来说能得到的木棒段数k与K的大小关系来进行二分。由于这个问题可以写成求解最后一个满足条件$k\geq K$的长度L，因此不妨转换为求解第一个满足条件$k&lt;K$的长度L，然后减1即可。</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//len为所有木棒,N为数量,L为目标长度,K为目标数量</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">int</span> len[N];</span><br><span class="line"><span class="keyword">int</span> K;</span><br><span class="line"><span class="comment">//算出k</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> L)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">        k += len[i] / L;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> k;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mid;</span><br><span class="line">    <span class="comment">//为何要+1?????</span></span><br><span class="line">    <span class="comment">//因为.....</span></span><br><span class="line">    <span class="keyword">while</span> (left + <span class="number">1</span> &lt; right) &#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (f(mid) &lt; K) &#123;</span><br><span class="line">            right = mid;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            left = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    len[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    len[<span class="number">1</span>] = <span class="number">24</span>;</span><br><span class="line">    len[<span class="number">2</span>] = <span class="number">15</span>;</span><br><span class="line">    K = <span class="number">7</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; solve(<span class="number">0</span>,<span class="number">24</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h3 id="3-快速幂"><a href="#3-快速幂" class="headerlink" title="3. 快速幂"></a>3. 快速幂</h3><blockquote>
+<p>快速幂就是用二分的思想来做幂积，适用于幂次很大的情况</p>
+<p>给定三个正整数$a、b、m(a&lt;10^9,b&lt;10^{18},1&lt;m&lt;10^9)$,求$a^b%m$</p>
+</blockquote>
+<p>预备知识：</p>
+<blockquote>
+<p>难怪我有一个地方一直没有懂，我一直想，这么大的数，哪怕是用了快速幂，难道LL能存下？，原来取模还有公式：</p>
+<p>模运算规则：<br>模运算与基本四则运算有些相似，但是除法例外。其规则如下：<br>$(a + b) % p = (a % p + b % p) % p$<br>$(a – b) % p = (a % p – b % p) % p$<br>$(a \times b) % p = (a % p \times b % p) % p$ —-尤为重要！！！也是为啥每次都做取模的原因<br>$ab % p = ((a % p)b) % p$<br>结合率：<br>$((a+b) % p + c) % p = (a + (b+c) % p) % p$<br>$((a\times b) % p \times c)% p = (a \times (b \times c) \ p) \ p$</p>
+</blockquote>
+<p><code>递归写法:</code></p>
+<p>快速幂基于以下事实：</p>
+<blockquote>
+<ol>
+<li>如果b是奇数，那么有$a^b = a\times a^{b-1}$</li>
+<li>如果b是偶数，那么有$a^b = a^{b/2}\times a^{b/2}$</li>
+</ol>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="comment">//求a^b % m,的递归写法</span></span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">binaryPow</span><span class="params">(LL a, LL b, LL m)</span></span>&#123;</span><br><span class="line">    <span class="comment">//递归边界</span></span><br><span class="line">    <span class="keyword">if</span> (b == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (b%<span class="number">2</span> == <span class="number">0</span>)&#123;</span><br><span class="line">        LL mul = binaryPow(a, b/<span class="number">2</span>, m);</span><br><span class="line">        <span class="keyword">return</span> mul * mul % m;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a * binaryPow(a, b<span class="number">-1</span>, m)%m;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>迭代写法</code></p>
+<blockquote>
+<p>对于$a^b$来说，如果把b写成二进制，那么b就可以写成若干二次幂之和。</p>
+<p>例如：$a^{13} = a^{8+4+1} = a^8\times a^4\times a^1$</p>
+<p>所以可以得到大致思路：</p>
+<p>令i从0到k枚举b的二进制的每一位，如果当前位为1，那么累积$a^{2i}$。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"><span class="comment">//求a^b % m,的迭代写法</span></span><br><span class="line"><span class="function">LL <span class="title">binaryPow</span><span class="params">(LL a, LL b, LL m)</span></span>&#123;</span><br><span class="line">    LL ans = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//递归边界</span></span><br><span class="line">    <span class="keyword">while</span>(b &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(b &amp; <span class="number">1</span>) &#123;<span class="comment">//如果b的二进制末尾为1</span></span><br><span class="line">            ans = ans * a % m; <span class="comment">//令ans累积上a</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//令a平方</span></span><br><span class="line">        a = a * a % m;</span><br><span class="line">        b &gt;&gt;= <span class="number">1</span>; <span class="comment">//将b的二进制右移一位,即b = b &gt;&gt; 1或b = b / 2</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h2 id="六、two-pointers"><a href="#六、two-pointers" class="headerlink" title="六、two pointers"></a>六、two pointers</h2><blockquote>
+<p>two pointers 是算法编程中的一种非常重要的思想。</p>
+</blockquote>
+<h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. 概念</h3><p>例一：</p>
+<blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228105701119.png" alt="image-20200228105701119"></p>
+<p>高复杂度的原因：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228105925515.png" alt="image-20200228105925515"></p>
+<p>以上体现了一个问题：<strong>i和j的枚举似乎是互相牵制的，而这似乎可以给优化算法带来很大的空间</strong></p>
+<p>事实上，本题中two pointers将利用有序序列的枚举特性来有效降低复杂度。</p>
+<p>算法如下：（<strong>仔细阅读，看懂这个过程！</strong>）</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228110639057.png" alt="image-20200228110639057"></p>
+<p>反复执行上面三个判断，直到$i\geq j$成立，代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(i &lt; j)&#123;</span><br><span class="line">  	<span class="keyword">if</span>(a[i] + a[j] == M)&#123;</span><br><span class="line">      	<span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>, i, j);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(a[i] + a[j] &lt; M)&#123;</span><br><span class="line">      	i++;  <span class="comment">//i往右走</span></span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">      	j--;  <span class="comment">//j往左走 </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>算法复杂度：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228115647733.png" alt="image-20200228115647733"></p>
+</blockquote>
+<p>例二：</p>
+<blockquote>
+<p><strong>序列合并问题。假设有两个递增序列A和B，要求他们合并为一个序列C。</strong></p>
+<p><code>ps:这个问题好像做过，就是归并里面的归并操作</code></p>
+<p>算法思想：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228115948618.png" alt="image-20200228115948618"></p>
+<p>上面分支操作直到i、j中的一个到达序列末端为止，然后将另一个序列的所有元素依次加入序列C</p>
+<p>代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> B[], <span class="keyword">int</span> C[], <span class="keyword">int</span> n, <span class="keyword">int</span> m)</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, index = <span class="number">0</span>;</span><br><span class="line">  	<span class="keyword">while</span>(i &lt; n &amp;&amp; j &lt; m)&#123;</span><br><span class="line">      	<span class="keyword">if</span>(A[i] &lt;= B[j])&#123;</span><br><span class="line">          	C[index++] = A[i++];</span><br><span class="line">        &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">          	C[index++] = B[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="keyword">while</span>(i &lt; n) C[index++] = A[i++];</span><br><span class="line">  	<span class="keyword">while</span>(j &lt; m) C[index++] = B[j++];</span><br><span class="line">  	<span class="keyword">return</span> index;  <span class="comment">//返回序列C的长度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>那么，two pointers到底是怎样的一种思想？</p>
+<blockquote>
+<p>事实上，two pointers最原始的含义就是针对例1而言的，而<strong>广义上的two pointers则是利用问题本身与序列的特性，使用两个下标i，j对序列进行扫描（可以同向，也可以反向），以较低的复杂度解决问题。</strong></p>
+</blockquote>
+<h3 id="2-归并排序"><a href="#2-归并排序" class="headerlink" title="2. 归并排序"></a>2. 归并排序</h3><p>概念：</p>
+<blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228160521842.png" alt="image-20200228160521842"></p>
+</blockquote>
+<p>代码实现：</p>
+<ol>
+<li><p>递归实现</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228160700572.png" alt="image-20200228160700572"></p>
+<p> 代码：</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将数组A的[L1, R1]与[L2, R2]区间合并为有序区间,L2实际就是L1+1</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> L1, <span class="keyword">int</span> R1, <span class="keyword">int</span> L2, <span class="keyword">int</span> R2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = L1, j = L2;  <span class="comment">//i指向A[L1], j指向A[L2]</span></span><br><span class="line">    <span class="keyword">int</span> temp[maxn], index = <span class="number">0</span>;  <span class="comment">//temp临时存放合并后的数组,index为下标</span></span><br><span class="line">    <span class="keyword">while</span>(i &lt;= R1 &amp;&amp; j &lt;= R2)&#123;</span><br><span class="line">        <span class="keyword">if</span>(A[i] &lt;= A[j])&#123;</span><br><span class="line">            temp[index++] = A[i++];</span><br><span class="line">        &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            temp[index++] = A[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i &lt;= R1) temp[index++] = A[i++];</span><br><span class="line">    <span class="keyword">while</span>(j &lt;= R2) temp[index++] = A[j++];</span><br><span class="line">    <span class="comment">//将合并后的序列赋值回数组A</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; index; i++)&#123;</span><br><span class="line">        A[L1 + i] = temp[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left &lt; right)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        mergeSort(A, left, mid);</span><br><span class="line">        mergeSort(A, mid + <span class="number">1</span>, right);</span><br><span class="line">        merge(A, left, mid , mid + <span class="number">1</span>, right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>非递归实现</p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200228165028325.png" alt="image-20200228165028325"></p>
+<p> <strong>代码：</strong></p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//非递归写法</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> <span class="built_in">step</span> = <span class="number">2</span>; <span class="built_in">step</span> / <span class="number">2</span> &lt;= n; <span class="built_in">step</span> *= <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="comment">//每step个元素一组,组内前step/2和后step/2个元素进行合并</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i += <span class="built_in">step</span>) &#123; <span class="comment">//对每一组</span></span><br><span class="line">            <span class="keyword">int</span> mid  = i + <span class="built_in">step</span> / <span class="number">2</span> - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(mid + <span class="number">1</span> &lt;= n) &#123;</span><br><span class="line">                merge(A, i, mid, mid +<span class="number">1</span>, <span class="built_in">min</span>(i + <span class="built_in">step</span> - <span class="number">1</span>, n));</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h3 id="3-快速排序"><a href="#3-快速排序" class="headerlink" title="3.快速排序"></a>3.快速排序</h3><p>概念：</p>
+<blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229110201266.png" alt="image-20200229110201266"></p>
+<p>思想：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229110714984.png" alt="image-20200229110714984"></p>
+<p><strong>ps: 由于第一个元素先前就被存过，所以就不会担心有元素被忽略</strong></p>
+<p>例子：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229110921724.png" alt="image-20200229110921724"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229110937753.png" alt="image-20200229110937753"></p>
+<p><code>此部分的代码：</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp = A[left];</span><br><span class="line">    <span class="keyword">while</span>(left &lt; right)&#123;</span><br><span class="line">        <span class="keyword">while</span>(left &lt; right &amp;&amp; A[right] &gt; temp) right--;  <span class="comment">//左移</span></span><br><span class="line">        A[left] = A[right];</span><br><span class="line">        <span class="keyword">while</span>(left &lt; right &amp;&amp; A[left] &lt; temp) left--;  <span class="comment">//右移</span></span><br><span class="line">        A[right] = A[left];</span><br><span class="line">    &#125;</span><br><span class="line">    A[left] = temp;  <span class="comment">//相遇之处</span></span><br><span class="line">    <span class="keyword">return</span> left; <span class="comment">//返回相遇的下标</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来正式实现快速排序，思路：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229111909950.png" alt="image-20200229111909950"></p>
+<p><strong>递归实现：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">  	<span class="keyword">if</span>(left &lt; right) &#123;</span><br><span class="line">      	<span class="keyword">int</span> pos = Partition(A, left, right);</span><br><span class="line">      	quickSort(A, left, pos - <span class="number">1</span>);  <span class="comment">//左子区间快排</span></span><br><span class="line">      	quickSort(A, pos + <span class="number">1</span>, right); <span class="comment">//右子区间快排</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229112337845.png" alt="image-20200229112337845"></p>
+<p><code>随机数的生成：</code></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229112517272.png" alt="image-20200229112517272"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;  //必要</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//生成随机数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));  <span class="comment">//生成随机数的种子</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 但是rand()的范围是[0,RAND_MAX],其中RAND_MAX是系统给出的</span></span><br><span class="line"><span class="comment">         * 如果想取到任意区间[a,b],则rand()%(b-a+1) + a</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>, rand());  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229113242106.png" alt="image-20200229113242106"></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229113256235.png" alt="image-20200229113256235"></p>
+<p><strong>但是，这种做法只对左右端点相差不超过RAND_MAX的区间随机数有效，如果需要生成更大的数，就不行了。</strong></p>
+<p>不过想要生成大范围的随机数也有很多方法：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229113659422.png" alt="image-20200229113659422"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;  //必要</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//生成随机数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));  <span class="comment">//生成随机数的种子</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 但是rand()的范围是[0,RAND_MAX],其中RAND_MAX是系统给出的</span></span><br><span class="line"><span class="comment">         * 如果想取到任意区间[a,b],则rand()%(b-a+1) + a</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">      	<span class="keyword">int</span> t = (<span class="keyword">int</span>)(round(<span class="number">1.0</span>*rand() / RAND_MAX)*<span class="number">50000</span> + <span class="number">10000</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>, rand());  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200229113925565.png" alt="image-20200229113925565"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="comment">//改进版:</span></span><br><span class="line">    srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));</span><br><span class="line">    <span class="keyword">int</span> p = round(<span class="number">1.0</span>*rand()/RAND_MAX*(right-left) + left);</span><br><span class="line">    swap(A[p], A[left]);  <span class="comment">//换到left,等效于随机拿了一个left</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> temp = A[left];</span><br><span class="line">    <span class="keyword">while</span>(left &lt; right)&#123;</span><br><span class="line">        <span class="keyword">while</span>(left &lt; right &amp;&amp; A[right] &gt; temp) right--;  <span class="comment">//左移</span></span><br><span class="line">        A[left] = A[right];</span><br><span class="line">        <span class="keyword">while</span>(left &lt; right &amp;&amp; A[left] &lt; temp) left--;  <span class="comment">//右移</span></span><br><span class="line">        A[right] = A[left];</span><br><span class="line">    &#125;</span><br><span class="line">    A[left] = temp;  <span class="comment">//相遇之处</span></span><br><span class="line">    <span class="keyword">return</span> left; <span class="comment">//返回相遇的下标</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">int</span> pos = Partition(A, left, right);</span><br><span class="line">        quickSort(A, left, pos - <span class="number">1</span>);  <span class="comment">//左子区间快排</span></span><br><span class="line">        quickSort(A, pos + <span class="number">1</span>, right); <span class="comment">//右子区间快排</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>个人认为，two pointer的核心在于有两个“哨兵”i和j，用两个哨兵对有序进行遍历</strong></p>
+<h2 id="七、回溯"><a href="#七、回溯" class="headerlink" title="七、回溯"></a>七、回溯</h2><h2 id="八、其他高效技巧与算法"><a href="#八、其他高效技巧与算法" class="headerlink" title="八、其他高效技巧与算法"></a>八、其他高效技巧与算法</h2><h3 id="1-打表"><a href="#1-打表" class="headerlink" title="1. 打表"></a>1. 打表</h3><blockquote>
+<p>打表是一种典型的用空间换时间的技巧，一般指将所有可能需要用到的结果实现计算出来，这样后面需要用到时就可以直接查表获得。</p>
+</blockquote>
+<p>打表的常见用法：</p>
+<ol>
+<li><p><strong>在程序中一次性计算出所有需要用到的结果，之后的查询直接取这些结果。</strong></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301210830244.png" alt="image-20200301210830244"></p>
+</li>
+<li><p><strong>在程序B中分一次或多次计算出所有需要用到的结果，手工把结果写在程序A的数组中，然后在程序A中就可以直接使用这些结果（居然还可以这样！）</strong></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301210947334.png" alt="image-20200301210947334"></p>
+</li>
+<li><p><strong>对一些感觉不会做的题目，先用暴力程序计算出小范围数据的结果，然后找规律，或许就能发现一些“蛛丝马迹”</strong></p>
+<p> <img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301211225875.png" alt="image-20200301211225875"></p>
+</li>
+</ol>
+<h3 id="2-活用递推"><a href="#2-活用递推" class="headerlink" title="2. 活用递推"></a>2. 活用递推</h3><blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301211242671.png" alt="image-20200301211242671"></p>
+</blockquote>
+<h3 id="3-随机选择算法"><a href="#3-随机选择算法" class="headerlink" title="3. 随机选择算法"></a>3. 随机选择算法</h3><blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301211407202.png" alt="image-20200301211407202"></p>
+<p><strong>这里的说法有点问题，第几大在这里的意思应该是第几小。。。</strong></p>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">randSelect</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">if</span>(left == right) <span class="keyword">return</span> A[left]; <span class="comment">//边界</span></span><br><span class="line">  	<span class="keyword">int</span> p = randPartition(A, left, right); <span class="comment">//划分后主元的位置为p</span></span><br><span class="line">  	<span class="keyword">int</span> M = p - left + <span class="number">1</span>;</span><br><span class="line">  	<span class="keyword">if</span>(K == M) <span class="keyword">return</span> A[p];</span><br><span class="line">  	<span class="keyword">if</span>(K &lt; M)&#123;</span><br><span class="line">      	<span class="keyword">return</span> randSelect(A, left, p - <span class="number">1</span>, K); <span class="comment">//往主元左侧找第K大</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      	<span class="comment">//往主元右侧找第K - M大（相对而言是总序列的第K大）</span></span><br><span class="line">        <span class="keyword">return</span> randSelect(A, p + <span class="number">1</span>, right, K - M);  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301213447440.png" alt="image-20200301213447440"></p>
+</blockquote>
+<p>下面是其应用：</p>
+<blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301220829199.png" alt="image-20200301220829199">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200301220839119.png" alt="image-20200301220839119"></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3/" rel="tag"># 基本思想</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/05/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/c++%E8%AF%AD%E6%B3%95%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" rel="prev" title="c++语法快速回顾">
+      <i class="fa fa-chevron-left"></i> c++语法快速回顾
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/01/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/STL%E4%BD%BF%E7%94%A8/" rel="next" title="STL使用">
+      STL使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#算法基本思想"><span class="nav-number">1.</span> <span class="nav-text">算法基本思想</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#零-杂"><span class="nav-number">1.1.</span> <span class="nav-text">零. 杂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一-排序"><span class="nav-number">1.2.</span> <span class="nav-text">一. 排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-散列"><span class="nav-number">1.3.</span> <span class="nav-text">二. 散列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-概述"><span class="nav-number">1.3.1.</span> <span class="nav-text">0. 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-常用的散列函数"><span class="nav-number">1.3.2.</span> <span class="nav-text">1. 常用的散列函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-冲突避免的方法"><span class="nav-number">1.3.3.</span> <span class="nav-text">2. 冲突避免的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-字符串hash初步—key不为整数情况"><span class="nav-number">1.3.4.</span> <span class="nav-text">3. 字符串hash初步—key不为整数情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、递归"><span class="nav-number">1.4.</span> <span class="nav-text">三、递归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-分治"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 分治</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-递归"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 递归</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、贪心"><span class="nav-number">1.5.</span> <span class="nav-text">四、贪心</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简单贪心"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.简单贪心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-区间贪心"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 区间贪心</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、二分"><span class="nav-number">1.6.</span> <span class="nav-text">五、二分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-二分查找"><span class="nav-number">1.6.1.</span> <span class="nav-text">1. 二分查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-二分法拓展"><span class="nav-number">1.6.2.</span> <span class="nav-text">2. 二分法拓展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-快速幂"><span class="nav-number">1.6.3.</span> <span class="nav-text">3. 快速幂</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、two-pointers"><span class="nav-number">1.7.</span> <span class="nav-text">六、two pointers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概念"><span class="nav-number">1.7.1.</span> <span class="nav-text">1. 概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-归并排序"><span class="nav-number">1.7.2.</span> <span class="nav-text">2. 归并排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-快速排序"><span class="nav-number">1.7.3.</span> <span class="nav-text">3.快速排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、回溯"><span class="nav-number">1.8.</span> <span class="nav-text">七、回溯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、其他高效技巧与算法"><span class="nav-number">1.9.</span> <span class="nav-text">八、其他高效技巧与算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-打表"><span class="nav-number">1.9.1.</span> <span class="nav-text">1. 打表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-活用递推"><span class="nav-number">1.9.2.</span> <span class="nav-text">2. 活用递推</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-随机选择算法"><span class="nav-number">1.9.3.</span> <span class="nav-text">3. 随机选择算法</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="KiritoH"
+      src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
+  <p class="site-author-name" itemprop="name">KiritoH</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KiritoH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
