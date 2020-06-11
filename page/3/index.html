@@ -188,6 +188,188 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/04/08/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/994.%20%E8%85%90%E7%83%82%E7%9A%84%E6%A9%98%E5%AD%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
+      <meta itemprop="name" content="KiritoH">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KiritoH's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/08/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/994.%20%E8%85%90%E7%83%82%E7%9A%84%E6%A9%98%E5%AD%90/" class="post-title-link" itemprop="url">994. 腐烂的橘子</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-08 17:08:42" itemprop="dateCreated datePublished" datetime="2020-04-08T17:08:42+08:00">2020-04-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-10 08:43:52" itemprop="dateModified" datetime="2020-06-10T08:43:52+08:00">2020-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="994-腐烂的橘子"><a href="#994-腐烂的橘子" class="headerlink" title="994. 腐烂的橘子"></a><a href="https://leetcode-cn.com/problems/rotting-oranges/" target="_blank" rel="noopener">994. 腐烂的橘子</a></h1><blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200408170953273.png" alt="image-20200408170953273"></p>
+</blockquote>
+<p>emm,一道非常标准的BFS题，没啥好讲的，还是多练练手。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//增量数组</span></span><br><span class="line">    <span class="keyword">int</span> X[<span class="number">4</span>] = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> Y[<span class="number">4</span>] = &#123;<span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span>&#123;</span></span><br><span class="line">        <span class="keyword">int</span> x;</span><br><span class="line">        <span class="keyword">int</span> y;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">orangesRotting</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> num_inq = <span class="number">0</span>;  <span class="comment">//记录入过队的橘子数</span></span><br><span class="line">        <span class="keyword">int</span> num = <span class="number">0</span>;  <span class="comment">//记录橘子数量</span></span><br><span class="line">        <span class="built_in">queue</span>&lt;Node&gt; q;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">inq</span><span class="params">(grid.<span class="built_in">size</span>(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(grid[<span class="number">0</span>].<span class="built_in">size</span>(), <span class="literal">false</span>))</span></span>;</span><br><span class="line">        <span class="comment">//先找为所有为2的入队（第一层）</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; grid.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; grid[<span class="number">0</span>].<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(grid[i][j] == <span class="number">1</span>) num++;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(grid[i][j] == <span class="number">2</span>) &#123;</span><br><span class="line">                    num++;</span><br><span class="line">                    Node node;</span><br><span class="line">                    node.x = i, node.y = j;</span><br><span class="line">                    inq[i][j] = <span class="literal">true</span>;</span><br><span class="line">                    q.push(node);</span><br><span class="line">                    num_inq++;</span><br><span class="line">                &#125; </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">            <span class="keyword">if</span>(num_inq == num) <span class="keyword">break</span>;  <span class="comment">//必须特判，因为最后一次虽然所有的都烂了，但队列中仍有要继续遍历，只不过啥都访问不到了</span></span><br><span class="line">            ans++;  <span class="comment">//遍历一层</span></span><br><span class="line">            <span class="comment">//一次一层</span></span><br><span class="line">            <span class="keyword">int</span> <span class="built_in">size</span> = q.<span class="built_in">size</span>();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; i++) &#123;</span><br><span class="line">                Node top = q.front();</span><br><span class="line">                q.pop();</span><br><span class="line">                <span class="comment">//访问上下左右</span></span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">4</span>; j++) &#123;</span><br><span class="line">                    <span class="keyword">int</span> x = top.x + X[j];</span><br><span class="line">                    <span class="keyword">int</span> y = top.y + Y[j];</span><br><span class="line">                    <span class="keyword">if</span>(x &lt; <span class="number">0</span> || x &gt;= grid.<span class="built_in">size</span>() || y &lt; <span class="number">0</span> || y &gt;= grid[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">continue</span>;  <span class="comment">//判断是否越界</span></span><br><span class="line">                    <span class="keyword">if</span>(inq[x][y] == <span class="literal">false</span> &amp;&amp; grid[x][y] == <span class="number">1</span>) &#123; <span class="comment">//没访问过，没腐烂</span></span><br><span class="line">                        grid[x][y] = <span class="number">2</span>;</span><br><span class="line">                        inq[x][y] = <span class="literal">true</span>;</span><br><span class="line">                        Node node;</span><br><span class="line">                        node.x = x, node.y = y;</span><br><span class="line">                        q.push(node);</span><br><span class="line">                        num_inq++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(num_inq == num) <span class="keyword">return</span> ans;  <span class="comment">//所有橘子都烂了</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>; <span class="comment">//并未全烂</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/04/07/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/993.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%A0%82%E5%85%84%E5%BC%9F%E8%8A%82%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
+      <meta itemprop="name" content="KiritoH">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KiritoH's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/07/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/993.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%A0%82%E5%85%84%E5%BC%9F%E8%8A%82%E7%82%B9/" class="post-title-link" itemprop="url">993. 二叉树的堂兄弟节点</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-07 21:02:31" itemprop="dateCreated datePublished" datetime="2020-04-07T21:02:31+08:00">2020-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-10 08:43:52" itemprop="dateModified" datetime="2020-06-10T08:43:52+08:00">2020-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="993-二叉树的堂兄弟节点"><a href="#993-二叉树的堂兄弟节点" class="headerlink" title="993. 二叉树的堂兄弟节点"></a>993. 二叉树的堂兄弟节点</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/cousins-in-binary-tree/" target="_blank" rel="noopener">993. 二叉树的堂兄弟节点</a></p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200407210321383.png" alt="image-20200407210321383">)<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200407210334459.png" alt="image-20200407210334459"></p>
+</blockquote>
+<p>最直接的思路就是求出各自高度，以及各自父节点，然后对比判断</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//求深度（由最上往下数）</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">get_depth</span><span class="params">(TreeNode* root, <span class="keyword">int</span> depth, <span class="keyword">int</span>&amp; ans, <span class="keyword">int</span> id)</span> </span>&#123;  <span class="comment">//id为目标结点的ID</span></span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">NULL</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span>(id == root-&gt;val) &#123;  <span class="comment">//到达就收手</span></span><br><span class="line">            ans = depth;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        get_depth(root-&gt;left, depth + <span class="number">1</span>, ans, id);</span><br><span class="line">        get_depth(root-&gt;right, depth + <span class="number">1</span>, ans, id);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//求父节点</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">get_father</span><span class="params">(TreeNode* root, <span class="keyword">int</span> id, <span class="keyword">int</span>&amp; ans)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">NULL</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span>(root-&gt;left != <span class="literal">NULL</span> &amp;&amp; root-&gt;left-&gt;val == id) &#123;</span><br><span class="line">            ans = root-&gt;val;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;right != <span class="literal">NULL</span> &amp;&amp; root-&gt;right-&gt;val == id) &#123;</span><br><span class="line">            ans = root-&gt;val;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        get_father(root-&gt;left, id, ans);</span><br><span class="line">        get_father(root-&gt;right, id, ans);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isCousins</span><span class="params">(TreeNode* root, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> d_x = <span class="number">0</span>, d_y = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> f_x = <span class="number">0</span>, f_y = <span class="number">0</span>;</span><br><span class="line">        get_depth(root, <span class="number">1</span>, d_x, x), get_father(root, x, f_x);</span><br><span class="line">        get_depth(root, <span class="number">1</span>, d_y, y), get_father(root, y, f_y);</span><br><span class="line">        <span class="keyword">if</span>(f_x != f_y &amp;&amp; d_x == d_y) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>不得不说，它的效率还算可以：4ms，10.9mb</p>
+<p>当然，我的主要任务是训练bfs，所以用bfs实现一遍：</p>
+<p>其主要难点是判断是否为同一父节点，判断方法在别人那里看到的，可以mark一下：</p>
+<blockquote>
+<p>如果在某一深度的搜索结果：</p>
+<p>x, y都没有找到，则进行下一深度的查找<br>x, y只找到一个，则直接return false<br>x, y两个都找到了，现在需要判断他们出现的位置。<br>如果他们出现的位置之间相隔距离大于1，则可以说明他们的父节点不是同一个<br>如果他们出现的位置刚好等于1，那么只要较大位置索引为偶数即说明他们的父节点不是同一个 //<br>否则 return false</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/04/07/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/%E5%91%98%E5%B7%A5%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1288,182 +1470,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/03/22/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/%E7%8E%A9%E7%AD%B9%E7%A0%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
-      <meta itemprop="name" content="KiritoH">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KiritoH's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/22/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/%E7%8E%A9%E7%AD%B9%E7%A0%81/" class="post-title-link" itemprop="url">玩筹码</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-22 15:45:27" itemprop="dateCreated datePublished" datetime="2020-03-22T15:45:27+08:00">2020-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-10 08:46:31" itemprop="dateModified" datetime="2020-06-10T08:46:31+08:00">2020-06-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="玩筹码"><a href="#玩筹码" class="headerlink" title="玩筹码"></a>玩筹码</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/play-with-chips/" target="_blank" rel="noopener">玩筹码</a></p>
-<p><img src="../../../../image/image-20200322154624893.png" alt="image-20200322154624893"></p>
-</blockquote>
-<p>思路见注释。。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    题挺简单的，但是我做的时候不知道怎么就拐不过弯来（悲）</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    在数轴上有一些砝码，输入他们的位置，找到移动的最小代价。</span></span><br><span class="line"><span class="comment">    其中偶数位置的到偶数位置的没有代价，奇数到奇数位置的没有代价（比如位置1到位置3不需要代价，2到4也不需要）</span></span><br><span class="line"><span class="comment">    那么在这个条件下就可以把所有奇数位置的砝码放到一个位置上（比如1,3,5三个位置上有一堆砝码，你可以全部堆在3位置上，反正不需要代价）</span></span><br><span class="line"><span class="comment">    于是在没有代价的情况下，我们就可以把所有偶数位置的砝码和奇数位置的砝码摆到连续的位置上</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    其次，奇数到偶数和偶数到奇数的移动一个砝码就需要1代价</span></span><br><span class="line"><span class="comment">    于是再比较两者中谁的数量比较少，少的一侧有多少砝码就是对应的总代价。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    到这里，这个题就转换成了：遍历一次数组，找到其中有多少个奇数和偶数位置的砝码，取其中比较少的，就是答案</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minCostToMoveChips</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; chips)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> nums_1 = <span class="number">0</span>;  <span class="comment">//奇数位置个数</span></span><br><span class="line">        <span class="keyword">int</span> nums_2 = <span class="number">0</span>;  <span class="comment">//偶数位置个数</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chips.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(chips[i] % <span class="number">2</span> == <span class="number">0</span>) nums_2++;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                nums_1++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">min</span>(nums_1, nums_2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/03/22/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/%E5%88%A0%E5%88%97%E9%80%A0%E5%BA%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
-      <meta itemprop="name" content="KiritoH">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KiritoH's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/22/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/LeetCode/%E5%88%A0%E5%88%97%E9%80%A0%E5%BA%8F/" class="post-title-link" itemprop="url">删列造序</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-22 10:13:39" itemprop="dateCreated datePublished" datetime="2020-03-22T10:13:39+08:00">2020-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-10 08:46:31" itemprop="dateModified" datetime="2020-06-10T08:46:31+08:00">2020-06-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">编程题</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B%E9%A2%98/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="删列造序"><a href="#删列造序" class="headerlink" title="删列造序"></a>删列造序</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/delete-columns-to-make-sorted/" target="_blank" rel="noopener">删列造序</a></p>
-<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/image20200322154346228.png" alt="image-20200322154346228"></p>
-</blockquote>
-<p>没啥好说的。。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minDeletionSize</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A[<span class="number">0</span>].length(); i++) &#123;</span><br><span class="line">            <span class="keyword">char</span> temp = A[<span class="number">0</span>][i];</span><br><span class="line">            <span class="keyword">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; A.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(A[j][i] &lt; A[j - <span class="number">1</span>][i]) &#123;</span><br><span class="line">                    flag = <span class="literal">false</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!flag) ans++;  <span class="comment">//需要删除</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1535,7 +1541,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

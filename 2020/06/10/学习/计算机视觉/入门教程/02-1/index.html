@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"kiritoh.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="02处理图像的基本函数显示图像 有了上次写的那个程序，这里面很多东西理解起来很快  1234567891011121314import imutilsimport cv2#1.读取图片,实际上image就是一个np数组image &#x3D; cv2.imread(&quot;1.jpg&quot;)#用一个元组的形式得到该图像的高度,宽度,深度(?)#深度就是通道数,这里显示3,是因为我们以三色道工作:蓝绿红(h, w, d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02-OpenCV基础（函数使用）-基础">
+<meta property="og:url" content="http://kiritoh.github.io/2020/06/10/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/02-1/index.html">
+<meta property="og:site_name" content="KiritoH&#39;s Blog">
+<meta property="og:description" content="02处理图像的基本函数显示图像 有了上次写的那个程序，这里面很多东西理解起来很快  1234567891011121314import imutilsimport cv2#1.读取图片,实际上image就是一个np数组image &#x3D; cv2.imread(&quot;1.jpg&quot;)#用一个元组的形式得到该图像的高度,宽度,深度(?)#深度就是通道数,这里显示3,是因为我们以三色道工作:蓝绿红(h, w, d">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610093245647.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/opencvtutorialgradientrgb.jpg">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610101807405.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610103701727.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610104858219.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610115732707.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610121140425.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610122128759.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610123124286.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610123928811.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610125804121.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610130240154.png">
+<meta property="og:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610131249716.png">
+<meta property="article:published_time" content="2020-06-10T00:59:24.064Z">
+<meta property="article:modified_time" content="2020-06-11T04:01:45.409Z">
+<meta property="article:author" content="KiritoH">
+<meta property="article:tag" content="计算机视觉">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610093245647.png">
+
+<link rel="canonical" href="http://kiritoh.github.io/2020/06/10/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/02-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>02-OpenCV基础（函数使用）-基础 | KiritoH's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">KiritoH's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://kiritoh.github.io/2020/06/10/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/02-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
+      <meta itemprop="name" content="KiritoH">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KiritoH's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          02-OpenCV基础（函数使用）-基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-10 08:59:24" itemprop="dateCreated datePublished" datetime="2020-06-10T08:59:24+08:00">2020-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-11 12:01:45" itemprop="dateModified" datetime="2020-06-11T12:01:45+08:00">2020-06-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" itemprop="url" rel="index"><span itemprop="name">计算机视觉</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">入门教程</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><h3 id="处理图像的基本函数"><a href="#处理图像的基本函数" class="headerlink" title="处理图像的基本函数"></a>处理图像的基本函数</h3><h4 id="显示图像"><a href="#显示图像" class="headerlink" title="显示图像"></a>显示图像</h4><blockquote>
+<p>有了上次写的那个程序，这里面很多东西理解起来很快</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> imutils</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="comment">#1.读取图片,实际上image就是一个np数组</span></span><br><span class="line">image = cv2.imread(<span class="string">"1.jpg"</span>)</span><br><span class="line"><span class="comment">#用一个元组的形式得到该图像的高度,宽度,深度(?)</span></span><br><span class="line"><span class="comment">#深度就是通道数,这里显示3,是因为我们以三色道工作:蓝绿红</span></span><br><span class="line">(h, w, d) = image.shape</span><br><span class="line"><span class="comment">#输出,python的输出方式还是好用</span></span><br><span class="line">print(<span class="string">"width=&#123;&#125;, height=&#123;&#125;, depth=&#123;&#125;"</span>.format(w, h, d))</span><br><span class="line"></span><br><span class="line"><span class="comment">#展示图片,标题为Image</span></span><br><span class="line">cv2.imshow(<span class="string">"Image"</span>, image)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>先读取图片，由于案例的图片我没有，在网上随便找了一张代替，这里是结果</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610093245647.png" alt="image-20200610093245647"></p>
+<blockquote>
+<p>深度是啥呢？</p>
+<p>深度就是通道数,这里显示3,是因为我们以三色道工作:蓝绿红</p>
+</blockquote>
+<p>文中描述高度和宽度用了个很有意思的说法</p>
+<blockquote>
+<p>It may seem confusing that the height comes before the width, but think of it this way:</p>
+<ul>
+<li>We describe matrices by <em># of rows x # of columns</em></li>
+<li>The number of <em>rows</em> is our <em>height</em></li>
+<li>And the number of <em>columns</em> is our <em>width</em></li>
+</ul>
+</blockquote>
+<h4 id="像素概念"><a href="#像素概念" class="headerlink" title="像素概念"></a>像素概念</h4><blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/opencvtutorialgradientrgb.jpg" alt="img"></p>
+<p>顶部：灰度渐变，较亮的像素接近255，较暗的像素接近0。（灰度值）</p>
+<p>底部：RGB维恩图，较亮的像素接近中心。（三色道）</p>
+</blockquote>
+<p>#####那什么是像素呢？</p>
+<blockquote>
+<p>All images consist of pixels which are the raw building blocks of images. Images are made of pixels in a grid. A 640 x 480 image has 640 columns (the width) and 480 rows (the height). There are $ 640 \times 480 = 307200 $ pixels in an image with those dimensions.</p>
+</blockquote>
+<p>#####灰度概念？</p>
+<blockquote>
+<p>灰度图像中的每个像素都有一个代表灰度的值。在OpenCV中，有256种灰度（从0到255）。</p>
+<p>因此，灰度图像将具有与每个像素关联的灰度值。</p>
+</blockquote>
+<h5 id="图像空间？"><a href="#图像空间？" class="headerlink" title="图像空间？"></a>图像空间？</h5><blockquote>
+<p>有几种图像空间，这里简单起见就以RGB来讲，熟悉图像处理后，这些东西自然会熟悉</p>
+</blockquote>
+<h5 id="RGB"><a href="#RGB" class="headerlink" title="RGB"></a>RGB</h5><blockquote>
+<p>RGB是个三元组，每个值取值范围为$[0,255]$,所以在RGB空间下，一个像素一共可以有$256\times256\times 256 = 16777216$种颜色</p>
+</blockquote>
+<h5 id="单像素"><a href="#单像素" class="headerlink" title="单像素"></a>单像素</h5><p>接下来对单像素进行分析：(注意看注释！)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#2.拿到某个像素点的RGB值,100是高度,50是宽度,是先高度再宽度,就坐标轴而言就是(y,x)!</span></span><br><span class="line"><span class="comment">#另外,OpenCV中图像颜色的存储顺序是BGR,切记!</span></span><br><span class="line">(B, G, R) = image[<span class="number">100</span>, <span class="number">50</span>]</span><br><span class="line">print(<span class="string">"R=&#123;&#125;, G=&#123;&#125;, B=&#123;&#125;"</span>.format(R, G, B))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>得到了结果:</p>
+<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610101807405.png" alt="image-20200610101807405" style="zoom:50%;" />
+</blockquote>
+<h4 id="数组切片与图像裁剪"><a href="#数组切片与图像裁剪" class="headerlink" title="数组切片与图像裁剪"></a>数组切片与图像裁剪</h4><blockquote>
+<p>如此我们对一张图像的理解就更为透彻了,实际上就是一个三维数组</p>
+<p>第一维,第二维是高度和宽度,而第三维就是RGB颜色,即像素颜色,每个元素代表一个像素</p>
+<p>整体组合就是一张图片,即一个图像数组</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#3.接下来是提取感兴趣区域(ROI),在图像处理中非常重要!</span></span><br><span class="line"><span class="comment">#虽然这里并不是识别脸部位置,但是告诉了我们如何用数组形式表示一个区域的图像</span></span><br><span class="line"><span class="comment">#第一个参数是高度,第二参数是宽度</span></span><br><span class="line">roi = image[<span class="number">40</span>:<span class="number">150</span>, <span class="number">212</span>:<span class="number">300</span>]</span><br><span class="line">cv2.imshow(<span class="string">"ROI"</span>, roi)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这个大小我调整了很久，我发现按照这个说法的话，<strong><em>y轴的方向是向下的！！！</em></strong></p>
+<blockquote>
+<p>效果：</p>
+<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610103701727.png" alt="image-20200610103701727" style="zoom:50%;" />
+</blockquote>
+<h4 id="调整图片大小"><a href="#调整图片大小" class="headerlink" title="调整图片大小"></a>调整图片大小</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#4.把图像resize为200x200px</span></span><br><span class="line"><span class="comment">#当然,这样的缩小忽略的其原比例大小,得到的形状也会奇怪</span></span><br><span class="line">resized = cv2.resize(image, (<span class="number">200</span>, <span class="number">200</span>))</span><br><span class="line">cv2.imshow(<span class="string">"Fixd Resizing"</span>, resized)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610104858219.png" alt="image-20200610104858219"></p>
+</blockquote>
+<p>按原比例resize：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#按原比例resize：</span></span><br><span class="line">r = <span class="number">300.0</span> / w</span><br><span class="line"><span class="comment">#这是宽和高的矩阵</span></span><br><span class="line">dim = (<span class="number">300</span>, int(h * r))</span><br><span class="line"><span class="comment">#需要注意dim是(宽,高)即(x,y),而image[]是(y,x)</span></span><br><span class="line">resized = cv2.resize(image, dim)</span><br><span class="line">cv2.imshow(<span class="string">"Aspect Ratio Resize"</span>, resized)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#当然,有更为简单的办法,就是用A酱的包:imutils</span></span><br><span class="line">resized = imutils.resize(image, width = <span class="number">300</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Imutils Ratio Resize"</span>, resized)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610115732707.png" alt="image-20200610115732707"></p>
+</blockquote>
+<h4 id="旋转图片"><a href="#旋转图片" class="headerlink" title="旋转图片"></a>旋转图片</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#5.旋转图像</span></span><br><span class="line"><span class="comment">#'//'表示对除数取整，无论相除的数是否为整数，它的取整表示不大于它的整数</span></span><br><span class="line"><span class="comment">#要旋转,先要计算图像中间点的坐标(center), 同出二就是中间点(要取整)</span></span><br><span class="line">center = (w // <span class="number">2</span>, h // <span class="number">2</span>)</span><br><span class="line"><span class="comment">#M就是要进行的操作,</span></span><br><span class="line">M = cv2.getRotationMatrix2D(center, <span class="number">-45</span>, <span class="number">1.0</span>)</span><br><span class="line"><span class="comment">#执行</span></span><br><span class="line">rotated = cv2.warpAffine(image, M, (w, h))</span><br><span class="line">cv2.imshow(<span class="string">"OpenCV Rotation"</span>, rotated)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#同样的,A酱也有更为简便的方法</span></span><br><span class="line">rotated = imutils.rotate(image, <span class="number">-45</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Imutils Rotation"</span>, rotated)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610121140425.png" alt="image-20200610121140425"></p>
+</blockquote>
+<p>当然，会有一个问题，我们会发现他的旋转导致了图像一部分（四角）被剪切了，要想让其整体呈现，opencv并没有直接实现，</p>
+<p>但是A酱实现了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#当然，会有一个问题，我们会发现他的旋转导致了图像一部分（四角）被剪切了</span></span><br><span class="line"><span class="comment">#要想让其整体呈现，opencv并没有直接实现，但是A酱实现了：</span></span><br><span class="line">rotated = imutils.rotate_bound(image, <span class="number">45</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Imutils Bound Rotation"</span>, rotated)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果：<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610122128759.png" alt="image-20200610122128759"></p>
+</blockquote>
+<h4 id="图片模糊处理"><a href="#图片模糊处理" class="headerlink" title="图片模糊处理"></a>图片模糊处理</h4><blockquote>
+<p>在图像处理的很多情况下，我们必须模糊化图像去减少高噪声，让其更加容易被我们的算法所检测和理解其实际内容，</p>
+<p>避免被噪声所误导，用OpenCV实现这个很简单</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#6.模糊化</span></span><br><span class="line"><span class="comment">#这个函数就是高斯模糊</span></span><br><span class="line"><span class="comment">#(11,11)的意思是使用11*11内核进行结果处理</span></span><br><span class="line">blurred = cv2.GaussianBlur(image, (<span class="number">11</span>, <span class="number">11</span>), <span class="number">0</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Blurred"</span>, blurred)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610123124286.png" alt="image-20200610123124286"></p>
+</blockquote>
+<h4 id="在图像上绘画"><a href="#在图像上绘画" class="headerlink" title="在图像上绘画"></a>在图像上绘画</h4><h5 id="画矩形"><a href="#画矩形" class="headerlink" title="画矩形"></a>画矩形</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#7.在图像上绘画</span></span><br><span class="line"><span class="comment">#提前要说的一点是,由于绘画是对于图像的直接更改,所以这里先复制一下图像</span></span><br><span class="line">output = image.copy()</span><br><span class="line"><span class="comment">#画一个矩形,颜色为红色</span></span><br><span class="line"><span class="comment">#可以提前定义一个红色的元组(tuple)</span></span><br><span class="line">red = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>)</span><br><span class="line"><span class="comment">#给的是对角线上两顶点的坐标,坐标是(宽,高)!</span></span><br><span class="line"><span class="comment">#2是指矩形的边厚度,2像素</span></span><br><span class="line">cv2.rectangle(output, (<span class="number">212</span>, <span class="number">40</span>), (<span class="number">300</span>, <span class="number">150</span>), red, <span class="number">2</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Rectangle"</span>, output)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果：</p>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610123928811.png" alt="image-20200610123928811"></p>
+</blockquote>
+<h5 id="画实心圆"><a href="#画实心圆" class="headerlink" title="画实心圆"></a>画实心圆</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#同样,还可以画圆圈,并且定义其大小</span></span><br><span class="line">output = image.copy()</span><br><span class="line">blue = (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"><span class="comment">#20意思是圆圈直径大小为20像素</span></span><br><span class="line"><span class="comment">#-1意思是为实心(边界填满)</span></span><br><span class="line">cv2.circle(output, (<span class="number">250</span>, <span class="number">100</span>), <span class="number">20</span>, blue, <span class="number">-1</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Circle"</span>, output)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610125804121.png" alt="image-20200610125804121"></p>
+</blockquote>
+<h5 id="画直线"><a href="#画直线" class="headerlink" title="画直线"></a>画直线</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#接下来是直线</span></span><br><span class="line">output = image.copy()</span><br><span class="line"><span class="comment">#其实和rectangle很像,也是给两个点</span></span><br><span class="line"><span class="comment">#这里我画把叉</span></span><br><span class="line">cv2.line(output, (<span class="number">212</span>, <span class="number">40</span>), (<span class="number">300</span>, <span class="number">150</span>), red, <span class="number">5</span>)</span><br><span class="line">cv2.line(output, (<span class="number">300</span>, <span class="number">40</span>), (<span class="number">212</span>, <span class="number">150</span>), red, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">cv2.imshow(<span class="string">"Line"</span>, output)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果：<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610130240154.png" alt="image-20200610130240154"></p>
+</blockquote>
+<h5 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#还可以放文字</span></span><br><span class="line">output = image.copy()</span><br><span class="line">green = (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>)</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">putText需要的参数:</span></span><br><span class="line"><span class="string">- img: 图像</span></span><br><span class="line"><span class="string">- text: 文字</span></span><br><span class="line"><span class="string">- pt: 起始坐标</span></span><br><span class="line"><span class="string">- font: 字体</span></span><br><span class="line"><span class="string">- scale: 字体大小</span></span><br><span class="line"><span class="string">- color: 文字颜色</span></span><br><span class="line"><span class="string">- thickness: 字体粗细大小</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">cv2.putText(output, <span class="string">"KiritoH's Demo Program of OpenCV."</span>, (<span class="number">10</span>, <span class="number">25</span>),</span><br><span class="line">    cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.7</span>, green, <span class="number">2</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Text"</span>, output)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果：<img src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/11/image20200610131249716.png" alt="image-20200610131249716"></p>
+</blockquote>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><p>好了，第一个源程序终于学完了，这里贴一下源码：（官方源码无法下载，此处完全手打。。）</p>
+<p><code>opencv_tutorial_01.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> imutils</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="comment">#1.读取图片,实际上image就是一个np数组</span></span><br><span class="line">image = cv2.imread(<span class="string">"1.jpg"</span>)</span><br><span class="line"><span class="comment">#用一个元组的形式得到该图像的高度,宽度,深度(?)</span></span><br><span class="line"><span class="comment">#深度就是通道数,这里显示3,是因为我们以三色道工作:蓝绿红</span></span><br><span class="line">(h, w, d) = image.shape</span><br><span class="line"><span class="comment">#输出,python的输出方式还是好用</span></span><br><span class="line">print(<span class="string">"width=&#123;&#125;, height=&#123;&#125;, depth=&#123;&#125;"</span>.format(w, h, d))</span><br><span class="line"></span><br><span class="line"><span class="comment">#展示图片,标题为Image</span></span><br><span class="line">cv2.imshow(<span class="string">"Image"</span>, image)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.单像素的价值?</span></span><br><span class="line"><span class="comment">#拿到某个像素点的RGB值,100是高度,50是宽度,是先高度再宽度,就坐标轴而言就是(y,x)!</span></span><br><span class="line"><span class="comment">#另外,OpenCV中图像颜色的存储顺序是BGR,切记!</span></span><br><span class="line">(B, G, R) = image[<span class="number">100</span>, <span class="number">50</span>]</span><br><span class="line">print(<span class="string">"R=&#123;&#125;, G=&#123;&#125;, B=&#123;&#125;"</span>.format(R, G, B))</span><br><span class="line"></span><br><span class="line"><span class="comment">#如此我们对一张图像的理解就更为透彻了,实际上就是一个三维数组</span></span><br><span class="line"><span class="comment">#第一维,第二维是高度和宽度,而第三维就是RGB颜色,即像素颜色,每个元素代表一个像素</span></span><br><span class="line"><span class="comment">#整体组合就是一张图片,即一个图像数组</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#3.接下来是提取感兴趣区域(ROI),在图像处理中非常重要!</span></span><br><span class="line"><span class="comment">#虽然这里并不是识别脸部位置,但是告诉了我们如何用数组形式表示一个区域的图像</span></span><br><span class="line"><span class="comment">#第一个参数是高度,第二参数是宽度</span></span><br><span class="line">roi = image[<span class="number">40</span>:<span class="number">150</span>, <span class="number">212</span>:<span class="number">300</span>]</span><br><span class="line">cv2.imshow(<span class="string">"ROI"</span>, roi)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#4.把图像resize为200x200px</span></span><br><span class="line"><span class="comment">#当然,这样的缩小忽略的其原比例大小,得到的形状也会奇怪</span></span><br><span class="line">resized = cv2.resize(image, (<span class="number">200</span>, <span class="number">200</span>))</span><br><span class="line">cv2.imshow(<span class="string">"Fixd Resizing"</span>, resized)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#按原比例resize：</span></span><br><span class="line">r = <span class="number">300.0</span> / w</span><br><span class="line"><span class="comment">#这是宽和高的矩阵,传参用整型</span></span><br><span class="line">dim = (<span class="number">300</span>, int(h * r))</span><br><span class="line"><span class="comment">#需要注意dim是(宽,高)即(x,y),而image[]是(y,x)</span></span><br><span class="line">resized = cv2.resize(image, dim)</span><br><span class="line">cv2.imshow(<span class="string">"Aspect Ratio Resize"</span>, resized)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#当然,有更为简单的办法,就是用A酱的包:imutils</span></span><br><span class="line"><span class="comment">#传高度或者宽度都可以</span></span><br><span class="line">resized = imutils.resize(image, width = <span class="number">300</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Imutils Ratio Resize"</span>, resized)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#5.旋转图像</span></span><br><span class="line"><span class="comment">#'//'表示对除数取整，无论相除的数是否为整数，它的取整表示不大于它的整数</span></span><br><span class="line"><span class="comment">#要旋转,先要计算图像中间点的坐标(center), 同出二就是中间点(要取整)</span></span><br><span class="line">center = (w // <span class="number">2</span>, h // <span class="number">2</span>)</span><br><span class="line"><span class="comment">#M就是要进行的操作,</span></span><br><span class="line">M = cv2.getRotationMatrix2D(center, <span class="number">-45</span>, <span class="number">1.0</span>)</span><br><span class="line"><span class="comment">#执行</span></span><br><span class="line">rotated = cv2.warpAffine(image, M, (w, h))</span><br><span class="line">cv2.imshow(<span class="string">"OpenCV Rotation"</span>, rotated)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#同样的,A酱也有更为简便的方法</span></span><br><span class="line">rotated = imutils.rotate(image, <span class="number">-45</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Imutils Rotation"</span>, rotated)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#当然，会有一个问题，我们会发现他的旋转导致了图像一部分（四角）被剪切了</span></span><br><span class="line"><span class="comment">#要想让其整体呈现，opencv并没有直接实现，但是A酱实现了：</span></span><br><span class="line">rotated = imutils.rotate_bound(image, <span class="number">45</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Imutils Bound Rotation"</span>, rotated)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#6.模糊化</span></span><br><span class="line"><span class="comment">#这个函数就是高斯模糊</span></span><br><span class="line"><span class="comment">#(11,11)的意思是使用11*11内核进行结果处理</span></span><br><span class="line">blurred = cv2.GaussianBlur(image, (<span class="number">11</span>, <span class="number">11</span>), <span class="number">0</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Blurred"</span>, blurred)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#7.在图像上绘画</span></span><br><span class="line"><span class="comment">#提前要说的一点是,由于绘画是对于图像的直接更改,所以这里先复制一下图像</span></span><br><span class="line">output = image.copy()</span><br><span class="line"><span class="comment">#画一个矩形,颜色为红色</span></span><br><span class="line"><span class="comment">#可以提前定义一个红色的元组(tuple)</span></span><br><span class="line">red = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>)</span><br><span class="line"><span class="comment">#给的是对角线上两顶点的坐标,坐标是(宽,高)!</span></span><br><span class="line"><span class="comment">#2是指矩形的边厚度,2像素</span></span><br><span class="line">cv2.rectangle(output, (<span class="number">212</span>, <span class="number">40</span>), (<span class="number">300</span>, <span class="number">150</span>), red, <span class="number">2</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Rectangle"</span>, output)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#同样,还可以画圆圈,并且定义其大小</span></span><br><span class="line">output = image.copy()</span><br><span class="line">blue = (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"><span class="comment">#20意思是圆圈直径大小为20像素</span></span><br><span class="line"><span class="comment">#-1意思是为实心(边界填满)</span></span><br><span class="line">cv2.circle(output, (<span class="number">250</span>, <span class="number">100</span>), <span class="number">20</span>, blue, <span class="number">-1</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Circle"</span>, output)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#接下来是直线</span></span><br><span class="line">output = image.copy()</span><br><span class="line"><span class="comment">#其实和rectangle很像,也是给两个点</span></span><br><span class="line"><span class="comment">#这里我画把叉</span></span><br><span class="line">cv2.line(output, (<span class="number">212</span>, <span class="number">40</span>), (<span class="number">300</span>, <span class="number">150</span>), red, <span class="number">5</span>)</span><br><span class="line">cv2.line(output, (<span class="number">300</span>, <span class="number">40</span>), (<span class="number">212</span>, <span class="number">150</span>), red, <span class="number">5</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Line"</span>, output)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#还可以放文字</span></span><br><span class="line">output = image.copy()</span><br><span class="line">green = (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>)</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">putText需要的参数:</span></span><br><span class="line"><span class="string">- img: 图像</span></span><br><span class="line"><span class="string">- text: 文字</span></span><br><span class="line"><span class="string">- pt: 起始坐标</span></span><br><span class="line"><span class="string">- font: 字体</span></span><br><span class="line"><span class="string">- scale: 字体大小</span></span><br><span class="line"><span class="string">- color: 文字颜色</span></span><br><span class="line"><span class="string">- thickness: 字体粗细大小</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">cv2.putText(output, <span class="string">"KiritoH's Demo Program of OpenCV."</span>, (<span class="number">10</span>, <span class="number">25</span>),</span><br><span class="line">    cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.7</span>, green, <span class="number">2</span>)</span><br><span class="line">cv2.imshow(<span class="string">"Text"</span>, output)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag"># 计算机视觉</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/08/%E5%AD%A6%E4%B9%A0/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/%E8%B5%B7%E6%AD%A5/" rel="prev" title="Hexo+Next搭建起步">
+      <i class="fa fa-chevron-left"></i> Hexo+Next搭建起步
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/11/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/02-2/" rel="next" title="02-OpenCV基础（函数使用）-进阶">
+      02-OpenCV基础（函数使用）-进阶 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#02"><span class="nav-text">02</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#处理图像的基本函数"><span class="nav-text">处理图像的基本函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#显示图像"><span class="nav-text">显示图像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#像素概念"><span class="nav-text">像素概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图像空间？"><span class="nav-text">图像空间？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RGB"><span class="nav-text">RGB</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#单像素"><span class="nav-text">单像素</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组切片与图像裁剪"><span class="nav-text">数组切片与图像裁剪</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调整图片大小"><span class="nav-text">调整图片大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转图片"><span class="nav-text">旋转图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片模糊处理"><span class="nav-text">图片模糊处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在图像上绘画"><span class="nav-text">在图像上绘画</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#画矩形"><span class="nav-text">画矩形</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#画实心圆"><span class="nav-text">画实心圆</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#画直线"><span class="nav-text">画直线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文本"><span class="nav-text">文本</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码"><span class="nav-text">源码</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="KiritoH"
+      src="https://demo-1258985652.cos.ap-guangzhou.myqcloud.com/2020/06/09/01.jpg">
+  <p class="site-author-name" itemprop="name">KiritoH</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KiritoH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
